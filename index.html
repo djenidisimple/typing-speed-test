@@ -8,57 +8,60 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="background">
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-        <div class="items"></div>
-    </div>
-    <header class="center">
+    <header class="space-between">
         <img src="./src/title.svg" alt="logo" class="desktop display-none">
         <img src="./src/logo.svg" alt="logo" class="title-mobile">
-        <div class="center gap-2">
+        <div class="center gap-1">
             <img src="./src/Trophy Icon.svg" alt="Trophy">
-            <div>
-                <span class="desktop display-none">Personal </span> <span> best:</span> <span>92 WPM</span>
+            <div class="size-preset-3">
+                <span class="desktop display-none">Personal </span> <span> best:</span> <span class="text-white">92 WPM</span>
             </div>
         </div>
     </header>
     <main>
         <div class="config border-b">
-            <div class="stat">
-                <span>WPM:</span> <span>40</span>
-                <span>Accuracy:</span> <span>94%</span>
-                <span>Time:</span> <span>0:46</span>
+            <div class="stat space-between">
+                <div class="flex-col stat-gap">
+                    <span class="size-preset-3">WPM:</span> <span class="size-preset-2 text-white bold">40</span>
+                </div>
+                <div class="divider"></div>
+                <div class="flex-col stat-gap">
+                    <span class="size-preset-3">Accuracy:</span> <span class="size-preset-2 text-red bold">94%</span>
+                </div>
+                <div class="divider"></div>
+                <div class="flex-col stat-gap">
+                    <span class="size-preset-3">Time:</span> <span class="size-preset-2 text-yellow bold">0:46</span>
+                </div>
             </div>
-            <div class="level">
-                <span>Difficulty:</span>
-                <button type="button" class="btn-level">Easy</button>
-                <button type="button" class="btn-level">Medium</button>
-                <button type="button" class="btn-level">Hard</button>
-            </div>
-            <div class="mode">
-                <span>Mode:</span>
-                <div class="timer">Timed(60s)</div>
-                <div>Passage</div>
+            <div class="choice pt-20 pb-16">
+                <div class="level">
+                    <label for="choice-level" class="desktop display-none">Difficulty:</label>
+                    <select name="choice-level">
+                        <option value="easy">Easy</option>
+                        <option value="easy">Medium</option>
+                        <option value="easy">Hard</option>
+                    </select>
+                </div>
+                <div class="mode">
+                    <label for="choice-level" class="desktop display-none">Mode:</label>
+                    <select name="choice-level">
+                        <option value="60">Timed(60s)</option>
+                        <option value="easy">Medium</option>
+                        <option value="easy">Hard</option>
+                    </select>
+                    <div class="desktop display-none">Passage</div>
+                </div>
             </div>
         </div>
-        <div class="content">
+        <div class="content size-preset-1">
             The archaeological expedition unearthed artifacts that complicated prevailing
             theories about Bronze Age trade networks. Obsidian from Anatolia, lapis lazuli
             from Afghanistan, 
         </div>
     </main>
-    <footer class="border-b">
+    <footer class="border-t">
         <button type="button" class="btn-restart">Restart Test <img src="./src/Undo Icon.svg" alt="Undo"></button>
     </footer>
+    <script src="./script.js"></script>
 </body>
 </html>
