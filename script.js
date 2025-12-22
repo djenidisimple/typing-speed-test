@@ -4,6 +4,7 @@ let background = document.createElement("div");
 let div, body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
 let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
+let restart = document.querySelector(".btn-restart");
 background.className = "background";
 body.appendChild(background);
 easy.split("").forEach(value => {
@@ -21,7 +22,7 @@ for (let i = 0; i < 12; i++) {
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
-    if (e.key.length === 1 && regex.test(e.key)) {
+    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32)) {
         textUser.push(e.key);
         color = (e.key == easy.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
         span[cursor].style.color = color;
@@ -31,4 +32,10 @@ document.addEventListener("keydown", function(e) {
         textUser.pop()
         cursor = (cursor > 0) ? cursor - 1 : 0;
     }
+});
+
+restart.addEventListener("click", function() {
+    textUser = [];
+    cursor = 0;
+    span.forEach(value => {value.style.color = "var(--neutral-400)"});
 });
