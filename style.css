@@ -1,6 +1,6 @@
 @font-face {
     font-family: Sora;
-    src: url(./src/Sora-VariableFont_wght.ttf);
+    src: url(./asseat/font/Sora-VariableFont_wght.ttf);
 }
 :root {
     /* yellow color */
@@ -53,6 +53,7 @@ body {
     padding-bottom: 32px;
     background-color: var(--neutral-900);
     font-family: Sora;
+    box-sizing: border-box;
 }
 .border-t {
     border-top: 1px solid var(--neutral-700);
