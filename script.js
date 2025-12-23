@@ -5,7 +5,9 @@ let div, body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
 let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
 let restart = document.querySelector(".btn-restart");
-let main = document.querySelector("main"), config = document.querySelector(".config");
+let config = document.querySelector(".config");
+let time = document.querySelector(".time");
+time.innerText = "60";
 background.className = "background";
 body.appendChild(background);
 easy.split("").forEach(value => {
@@ -13,6 +15,7 @@ easy.split("").forEach(value => {
 });
 
 span = document.querySelectorAll("span.text");
+span[0].classList.add("pointer");
 
 // background
 for (let i = 0; i < 12; i++) {
@@ -28,22 +31,41 @@ document.addEventListener("keydown", function(e) {
         color = (e.key == easy.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
         span[cursor].style.color = color;
         if (cursor + 1 == easy.split("").length) {
-            cursor = 0;
-            main.style.display = "none";
+            config.style.display = "none";
+            content.style.display = "none";
         } else {
+            span[cursor].classList.remove("pointer");
+            if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
             cursor++;
+            span[cursor].classList.add("pointer");
         }
-    } else if (e.key == "Backspace" || e.key == "Delete" && textUser.length > 0) {
+    } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0) {
+        span[cursor].classList.remove("pointer");
         span[cursor - 1].style.color = "var(--neutral-400)";
+        span[cursor - 1].style.textDecoration = "none";
         textUser.pop()
         cursor = (cursor > 0) ? cursor - 1 : 0;
+        span[cursor].classList.add("pointer");
     }
 });
 
 
 restart.addEventListener("click", function() {
     textUser = [];
+    span[cursor].classList.remove("pointer");
+    span[cursor].style.textDecoration = "none";
     cursor = 0;
     span.forEach(value => {value.style.color = "var(--neutral-400)"});
-    main.style.display = "block";
+    config.style.display = "block";
+    content.style.display = "block";
+    span[cursor].classList.add("pointer");
+    time.innerText = "60";
 });
+
+setInterval(() => {
+    time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
+    if (time.textContent == "0") {
+        config.style.display = "none";
+        content.style.display = "none";
+    }
+}, 1000);

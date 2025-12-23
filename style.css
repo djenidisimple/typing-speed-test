@@ -7,6 +7,7 @@
     --yellow-400: #F4DC73;
     /* green color */
     --green-500: #4DD67B;
+    --charcoal-brown: #3F4531;
     /* red color */
     --red-500: rgba(214, 77, 91, 1);
     --red-600: rgba(255, 0, 0, 0.1);
@@ -71,8 +72,17 @@ body {
     background-color: var(--neutral-700);
 }
 .content {
+    position: relative;
     padding-top: 32px;
     padding-bottom: 32px;
+}
+.pointer {
+    width: 2vw;
+    height: 1vh;
+    background-color: var(--charcoal-brown);
+    color: var(--neutral-0)!important;
+    border-radius: 4px;
+    padding: 1px;
 }
 .pt-20 {
     padding-top: 20px;
@@ -99,7 +109,7 @@ footer {
 }
 .btn-restart {
     cursor: pointer;
-    width: 52vw;
+    width: 181px;
     height: 56px;
     display: flex;
     justify-content: center;
@@ -183,6 +193,9 @@ select {
 option {
     text-align: center;
     background-color: var(--neutral-900);
+}
+select option {
+    list-style: none;
 }
 .space-between {
     display: flex;
