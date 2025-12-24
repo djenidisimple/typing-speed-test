@@ -5,7 +5,7 @@ let div, body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
 let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
 let restart = document.querySelector(".btn-restart");
-let config = document.querySelector(".config");
+let main = document.querySelector("main"), footer = document.querySelector("footer");
 let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 time.innerText = "60";
@@ -33,9 +33,9 @@ document.addEventListener("keydown", function(e) {
         color = (e.key == easy.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
         span[cursor].style.color = color;
         if (cursor + 1 == easy.split("").length) {
-            config.style.display = "none";
-            content.style.display = "none";
+            main.style.display = "none";
             resultat.style.display = "block";
+            footer.classList.remove("border-t");
         } else {
             span[cursor].classList.remove("pointer");
             if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
@@ -60,38 +60,17 @@ restart.addEventListener("click", function() {
     resultat.style.display = "none";
     cursor = 0;
     span.forEach(value => {value.style.color = "var(--neutral-400)"});
-    config.style.display = "block";
-    content.style.display = "block";
+    main.style.display = "block";
+    footer.classList.add("border-t");
     span[cursor].classList.add("pointer");
     time.innerText = "60";
 });
 
-setInterval(() => {
-    time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
-    if (time.textContent == "0") {
-        config.style.display = "none";
-        content.style.display = "none";
-        resultat.style.display = "block";
-    }
-}, 1000);
-
-function citySurfaceArea(_map) {
-    let value = 0;
-    for (let i = 0; i < _map.length; i++) {
-        for (let j = 0; j < _map[i].length; j++) {
-            if (_map.length > 1) {
-                value += (_map[i][j] >= 1) ? _map[i][j] + 4 : _map[i][j] + 1;
-                console.log((_map[i][j] >= 1) ? _map[i][j] + 4 : _map[i][j] + 1);
-            } else {
-                value += _map[i][j] + 5; 
-            }
-        }
-    }
-    return value;
-}
-
-console.log(citySurfaceArea([
-    [4, 2, 0],
-    [2, 1, 2],
-    [0, 2, 4]
-]));
+// setInterval(() => {
+//     time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
+//     if (time.textContent == "0") {
+//         main.style.display = "none";
+//         footer.classList.remove("border-t");
+//         resultat.style.display = "block";
+//     }
+// }, 1000);

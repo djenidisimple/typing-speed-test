@@ -9,33 +9,32 @@
 </head>
 <body>
     <header class="space-between">
-        <img src="./asseat/title.svg" alt="logo" class="desktop display-none">
-        <img src="./asseat/logo.svg" alt="logo" class="title-mobile">
+        <img src="./asseat/title.svg" alt="logo" class="desktop">
+        <img src="./asseat/logo.svg" alt="logo" class="mobile title-mobile">
         <div class="center gap-1">
             <img src="./asseat/Trophy Icon.svg" alt="Trophy">
             <div class="size-preset-3">
-                <span class="desktop display-none">Personal </span> <span class="capitalize-mobile"> best:</span> <span class="text-white">92 WPM</span>
+                <span class="desktop">Personal </span> <span class="capitalize-mobile"> best:</span> <span class="text-white">92 WPM</span>
             </div>
         </div>
     </header>
     <main>
         <div class="config border-b">
-            <div class="stat space-between">
-                <div class="flex-col stat-gap">
+            <div class="stat">
+                <div class="flex-stat stat-gap">
                     <span class="size-preset-3">WPM:</span> <span class="size-preset-2 text-white bold">40</span>
                 </div>
                 <div class="divider"></div>
-                <div class="flex-col stat-gap">
+                <div class="flex-stat stat-gap">
                     <span class="size-preset-3">Accuracy:</span> <span class="size-preset-2 text-red bold">94%</span>
                 </div>
                 <div class="divider"></div>
-                <div class="flex-col stat-gap">
+                <div class="flex-stat stat-gap">
                     <span class="size-preset-3">Time:</span> <span class="size-preset-2 text-yellow bold time">0:46</span>
                 </div>
             </div>
-            <div class="choice pt-20 pb-16">
+            <div class="choice pt-20 pb-16 mobile">
                 <div class="level">
-                    <label for="choice-level" class="desktop display-none">Difficulty:</label>
                     <select name="choice-level">
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
@@ -43,13 +42,25 @@
                     </select>
                 </div>
                 <div class="mode">
-                    <label for="choice-level" class="desktop display-none">Mode:</label>
                     <select name="choice-level">
                         <option value="60">Timed(60s)</option>
                         <option value="easy">Medium</option>
                         <option value="easy">Hard</option>
                     </select>
-                    <div class="desktop display-none">Passage</div>
+                </div>
+            </div>
+            <div class="desktop flex-start gap-17">
+                <div>
+                    <label for="difficulty" class="mr-16 size-preset-5">Difficulty:</label>
+                    <button type="button" class="border btn-d">Easy</button>
+                    <button type="button" class="border btn-d">Medium</button>
+                    <button type="button" class="border btn-d border-blue-400">hard</button>
+                </div>
+                <div class="divider"></div>
+                <div>
+                    <label for="mode" class="mr-12 size-preset-5">Mode:</label>
+                    <button type="button" class="border btn-mode border-blue-400">Timed (60s)</button>
+                    <button type="button" class="border btn-mode">Passage</button>
                 </div>
             </div>
         </div>
