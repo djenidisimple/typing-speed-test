@@ -7,6 +7,7 @@ let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
 let restart = document.querySelector(".btn-restart");
 let config = document.querySelector(".config");
 let time = document.querySelector(".time");
+let resultat = document.querySelector(".resultat");
 time.innerText = "60";
 background.className = "background";
 body.appendChild(background);
@@ -14,6 +15,7 @@ easy.split("").forEach(value => {
     content.innerHTML += "<span class='text'>"+ value + "</span>";
 });
 
+resultat.style.display = "none";
 span = document.querySelectorAll("span.text");
 span[0].classList.add("pointer");
 
@@ -33,6 +35,7 @@ document.addEventListener("keydown", function(e) {
         if (cursor + 1 == easy.split("").length) {
             config.style.display = "none";
             content.style.display = "none";
+            resultat.style.display = "block";
         } else {
             span[cursor].classList.remove("pointer");
             if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
@@ -54,6 +57,7 @@ restart.addEventListener("click", function() {
     textUser = [];
     span[cursor].classList.remove("pointer");
     span[cursor].style.textDecoration = "none";
+    resultat.style.display = "none";
     cursor = 0;
     span.forEach(value => {value.style.color = "var(--neutral-400)"});
     config.style.display = "block";
@@ -67,5 +71,27 @@ setInterval(() => {
     if (time.textContent == "0") {
         config.style.display = "none";
         content.style.display = "none";
+        resultat.style.display = "block";
     }
 }, 1000);
+
+function citySurfaceArea(_map) {
+    let value = 0;
+    for (let i = 0; i < _map.length; i++) {
+        for (let j = 0; j < _map[i].length; j++) {
+            if (_map.length > 1) {
+                value += (_map[i][j] >= 1) ? _map[i][j] + 4 : _map[i][j] + 1;
+                console.log((_map[i][j] >= 1) ? _map[i][j] + 4 : _map[i][j] + 1);
+            } else {
+                value += _map[i][j] + 5; 
+            }
+        }
+    }
+    return value;
+}
+
+console.log(citySurfaceArea([
+    [4, 2, 0],
+    [2, 1, 2],
+    [0, 2, 4]
+]));

@@ -41,6 +41,10 @@
 .items {
     background-color: var(--red-600);
 }
+.icon-circle {
+    width: 84px;
+    height: 84px;
+}
 html {
     margin: 0;
     padding: 0;
@@ -65,10 +69,13 @@ body {
 .stat {
     gap: 20px;
 }
+.capitalize-mobile {
+    text-transform: capitalize;
+}
 .divider {
-    padding: 1px;
-    width: 1px;
-    height: 8vh;
+    padding: 0.5px;
+    width: 0.5px;
+    height: 51px;
     background-color: var(--neutral-700);
 }
 .content {
@@ -93,7 +100,14 @@ body {
 .flex-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+.card {
+    border: 1px solid var(--neutral-700);
+    padding: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+    gap: 12px;
+    border-radius: 8px;
 }
 .btn-level {
     border: none;
@@ -103,8 +117,6 @@ header {
 }
 footer {
     width: 100%;
-    display: flex;
-    justify-content: center;
     padding-top: 24px;
 }
 .btn-restart {
@@ -131,11 +143,20 @@ footer {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
+.text-center {
+    text-align: center;
+}
+.mt-2 {
+    margin-top: 2vh;
+}
 .gap-1 {
     gap: 10px;
 }
 .gap-2 {
     gap: 2vw;
+}
+.gap-24 {
+    gap: 24px;
 }
 .config {
     padding-bottom: 16px;
@@ -145,6 +166,9 @@ footer {
 }
 .text-white {
     color: var(--neutral-0);
+}
+.text-green {
+    color: var(--green-500);
 }
 .text-red {
     color: var(--red-500);
@@ -158,44 +182,39 @@ footer {
     letter-spacing: 0.32px!important;
 }
 .size-preset-1 {
-    font-size: var(--text-preset-1);
-    line-height: 120%;
-}
-.size-preset-1 {
-    font-size: var(--text-preset-1);
-    line-height: 136%;
-    letter-spacing: 0.4px;
+    font-size: var(--text-preset-1)!important;
+    line-height: 120%!important;
+    letter-spacing: 0.32px!important;
 }
 .size-preset-1-bold {
-    font-size: var(--text-preset-1-bold);
-    line-height: 120%;
-    letter-spacing: 0.32px;
+    font-size: var(--text-preset-1-bold)!important;
+    line-height: 120%!important;
+    letter-spacing: 0.32px!important;
 }
 .size-preset-2 {
-    font-size: var(--text-preset-2);
-    line-height: 100%;
-    letter-spacing: 0px;
+    font-size: var(--text-preset-2)!important;
+    line-height: 100%!important;
+    letter-spacing: 0px!important;
 }
 .size-preset-3 {
-    font-size: var(--text-preset-3);
-    line-height: 120%;
-    letter-spacing: -0.48px;
+    font-size: var(--text-preset-3)!important;
+    line-height: 120%!important;
+    letter-spacing: -0.48px!important;
+}
+.arrow-icon {
+    width: 10px;
+    height: 10px;
+    background: url(./asseat/Easy\ Label.svg) center no-repeat;
 }
 select {
-    background-color: inherit;
-    color: var(--neutral-0);
-    padding: 6px 10px;
     width: 100%;
     border-radius: 8px;
+    color: var(--neutral-0);
+    padding: 6px 10px;
     border: 1px solid var(--neutral-400);
     cursor: pointer;
-}
-option {
+    background-color: transparent;
     text-align: center;
-    background-color: var(--neutral-900);
-}
-select option {
-    list-style: none;
 }
 .space-between {
     display: flex;
