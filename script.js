@@ -8,6 +8,8 @@ let restart = document.querySelector(".btn-restart");
 let main = document.querySelector("main"), footer = document.querySelector("footer");
 let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
+let btnMode = document.querySelectorAll(".btn-mode");
+let btnD = document.querySelectorAll(".btn-d");
 time.innerText = "60";
 background.className = "background";
 body.appendChild(background);
@@ -64,6 +66,20 @@ restart.addEventListener("click", function() {
     footer.classList.add("border-t");
     span[cursor].classList.add("pointer");
     time.innerText = "60";
+});
+
+btnMode.forEach(value => {
+    value.addEventListener("click", function() {
+        btnMode.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");   
+    });
+});
+
+btnD.forEach(value => {
+    value.addEventListener("click", function() {
+        btnD.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");   
+    });
 });
 
 // setInterval(() => {
