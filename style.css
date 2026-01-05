@@ -276,7 +276,7 @@ select {
     display: none;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1439px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
     :root {
         --text-preset-1: 40px;
     }
@@ -315,7 +315,7 @@ select {
         height: 24px;
     }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1025px) {
     :root {
         --text-preset-1: 40px;
     }
