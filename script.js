@@ -1,4 +1,4 @@
-import { getText } from "./src/utils.js";
+import { getText, writeText } from "./src/utils.js";
 
 let background = document.createElement("div");
 let div, body = document.body, span, textUser = [], color = "";
@@ -17,9 +17,7 @@ let text = data[localStorage.getItem('difficulty') || "easy"];
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
 body.appendChild(background);
-text.split("").forEach(value => {
-    content.innerHTML += "<span class='text'>"+ value + "</span>";
-});
+writeText(text, content);
 
 resultat.style.display = "none";
 span = document.querySelectorAll("span.text");
@@ -115,6 +113,7 @@ btnD.forEach((value, id) => {
         } else {
             localStorage.setItem('difficulty', 'hard');
         }
+        writeText(data[localStorage.getItem('difficulty')], content);
     });
 });
 

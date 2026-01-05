@@ -7,4 +7,11 @@ async function getText() {
     return data;
 }
 
-export { getText }
+function writeText(text, content) {
+    content.innerHTML = "";
+    text.split("").forEach(value => {
+        content.innerHTML += "<span class='text'>"+ value + "</span>";
+    });
+}
+
+export { getText, writeText }
