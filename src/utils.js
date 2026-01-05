@@ -14,4 +14,12 @@ function writeText(text, content) {
     });
 }
 
-export { getText, writeText }
+function countWord(word) {
+    let count = 0;
+    for (let i = 0; i < word.length; i++) {
+        count += (word[i] == " " || word[i] == ".") ? 1 : 0;
+    }
+    return count;
+}
+
+export { getText, writeText, countWord }

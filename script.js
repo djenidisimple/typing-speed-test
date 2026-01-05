@@ -1,4 +1,4 @@
-import { getText, writeText } from "./src/utils.js";
+import { countWord, getText, writeText } from "./src/utils.js";
 
 let background = document.createElement("div");
 let div, body = document.body, span, textUser = [], color = "";
@@ -10,13 +10,14 @@ let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
 let btnD = document.querySelectorAll(".btn-d");
-let timeInterval = null;
+let timeInterval = null, wpm = document.querySelector(".wpm");
 let data = await getText();
 let text = data[localStorage.getItem('difficulty') || "easy"];
 
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
 body.appendChild(background);
+wpm.innerText = "0";
 writeText(text, content);
 
 resultat.style.display = "none";
@@ -34,6 +35,7 @@ document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0) {
         textUser.push(e.key);
+        wpm.innerText = countWord(textUser);
         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
         span[cursor].style.color = color;
         if (cursor + 1 == text.split("").length) {
@@ -68,6 +70,7 @@ restart.addEventListener("click", function() {
     footer.classList.add("border-t");
     span[cursor].classList.add("pointer");
     time.innerText = "60";
+    wpm.innerText = "0";
 });
 
 btnMode.forEach((value, id) => {
@@ -141,3 +144,4 @@ function timeRun() {
 }
 
 timeRun();
+
