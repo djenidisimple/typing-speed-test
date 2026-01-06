@@ -1,7 +1,7 @@
-import { countWord, getText, writeText } from "./src/utils.js";
+import { countWord, generateBackground, getText, timeRun, writeText } from "./src/utils.js";
 
 let background = document.createElement("div");
-let div, body = document.body, span, textUser = [], color = "";
+let body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
 let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
 let restart = document.querySelector(".btn-restart");
@@ -10,32 +10,25 @@ let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
 let btnD = document.querySelectorAll(".btn-d");
-let timeInterval = null, wpm = document.querySelector(".wpm");
+let timeInterval = null, wpm = document.querySelectorAll(".wpm");
+let cachedData = null;
 let data = await getText();
 let text = data[localStorage.getItem('difficulty') || "easy"];
 
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
 body.appendChild(background);
-wpm.innerText = "0";
+wpm.forEach((value) => value.innerText = "0");
 writeText(text, content);
 
 resultat.style.display = "none";
-span = document.querySelectorAll("span.text");
-span[0].classList.add("pointer");
-
-// background
-for (let i = 0; i < 12; i++) {
-    div = document.createElement("div");
-    div.className = "items";
-    background.appendChild(div);
-}
+span = generateBackground(background);
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0) {
         textUser.push(e.key);
-        wpm.innerText = countWord(textUser);
+        wpm.forEach((value) => value.innerText = countWord(textUser));
         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
         span[cursor].style.color = color;
         if (cursor + 1 == text.split("").length) {
@@ -70,7 +63,7 @@ restart.addEventListener("click", function() {
     footer.classList.add("border-t");
     span[cursor].classList.add("pointer");
     time.innerText = "60";
-    wpm.innerText = "0";
+    wpm.forEach((value) => value.innerText = "0")
 });
 
 btnMode.forEach((value, id) => {
@@ -87,7 +80,7 @@ btnMode.forEach((value, id) => {
         if (id % 2 == 0) {
             localStorage.setItem('mode', "timed");
             time.innerText = "60";
-            timeRun();
+            timeRun(timeInterval, time, main, footer, resultat);
         } else {
             localStorage.setItem('mode', 'passage');
             time.innerText = "00";
@@ -120,28 +113,4 @@ btnD.forEach((value, id) => {
     });
 });
 
-function timeRun() {
-
-    if (timeInterval) {
-        clearInterval(timeInterval);
-    }
-
-    timeInterval = setInterval(() => {
-        if (localStorage.getItem('mode') != "timed") {
-            time.innerText = "00";
-            clearInterval(timeInterval);
-            return;
-        }
-    
-        time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
-        if (time.textContent == "0") {
-            main.style.display = "none";
-            footer.classList.remove("border-t");
-            resultat.style.display = "block";
-        }
-    }, 1000);
-
-}
-
-timeRun();
-
+timeRun(timeInterval, time, main, footer, resultat);

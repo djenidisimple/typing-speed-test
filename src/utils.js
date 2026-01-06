@@ -22,4 +22,40 @@ function countWord(word) {
     return count;
 }
 
-export { getText, writeText, countWord }
+function timeRun(timeInterval, time, main, footer, resultat) {
+
+    if (timeInterval) {
+        clearInterval(timeInterval);
+    }
+
+    timeInterval = setInterval(() => {
+        if (localStorage.getItem('mode') != "timed") {
+            time.innerText = "00";
+            clearInterval(timeInterval);
+            return;
+        }
+    
+        time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
+        if (time.textContent == "0") {
+            main.style.display = "none";
+            footer.classList.remove("border-t");
+            resultat.style.display = "block";
+        }
+    }, 1000);
+
+}
+
+function generateBackground(background) {
+    let span = document.querySelectorAll("span.text"), div;
+    span[0].classList.add("pointer");
+
+    // background
+    for (let i = 0; i < 12; i++) {
+        div = document.createElement("div");
+        div.className = "items";
+        background.appendChild(div);
+    }
+    return span;
+}
+
+export { getText, writeText, countWord, timeRun, generateBackground }

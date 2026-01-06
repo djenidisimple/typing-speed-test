@@ -27,6 +27,20 @@
     --text-preset-3: 20px;
     --text-preset-5: 16px;
 }
+.testComplete {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 32px rgba(77, 214, 123, 0.1), 0 0 0 16px rgba(77, 214, 123, 0.2);
+}
+.bestScore {
+    display: none;
+}
+.resultat {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .background {
     position: fixed;
     width: 100%;
@@ -110,6 +124,9 @@ button {
     border-radius: 4px;
     padding: 1px;
 }
+.p-2 {
+    padding: 2em;
+}
 .pt-20 {
     padding-top: 20px;
 }
@@ -122,6 +139,9 @@ button {
 .mr-16 {
     margin-right: 16px!important;
 }
+.mb-16 {
+    margin-bottom: 16px!important;
+}
 .flex-col {
     display: flex;
     flex-direction: column;
@@ -129,10 +149,12 @@ button {
 .card {
     border: 1px solid var(--neutral-700);
     padding: 16px;
+    height: 92px;
     padding-left: 24px;
     padding-right: 24px;
     gap: 12px;
     border-radius: 8px;
+    box-sizing: border-box;
 }
 .btn-level {
     border: none;
@@ -185,6 +207,9 @@ footer {
 }
 .gap-24 {
     gap: 24px;
+}
+.gap-36 {
+    gap: 36px;
 }
 .config {
     padding-bottom: 16px;
@@ -276,9 +301,24 @@ select {
     display: none;
 }
 
+.align-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     :root {
         --text-preset-1: 40px;
+    }
+    .card {
+        width: 221.33px;
+    }
+    .align-card {
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 20px;
+        padding-bottom: 32px;
     }
     body {
         padding: 32px;
@@ -318,6 +358,15 @@ select {
 @media screen and (min-width: 1025px) {
     :root {
         --text-preset-1: 40px;
+    }
+    .card {
+        width: 160px;
+    }
+    .align-card {
+        justify-content: center;
+        flex-direction: row;
+        padding-top: 20px;
+        padding-bottom: 32px;
     }
     body {
         padding: 112px;
