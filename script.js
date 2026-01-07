@@ -11,9 +11,10 @@ let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
 let btnD = document.querySelectorAll(".btn-d");
 let timeInterval = null, wpm = document.querySelectorAll(".wpm");
-let cachedData = null;
 let data = await getText();
 let text = data[localStorage.getItem('difficulty') || "easy"];
+let selected = document.querySelectorAll(".selected");
+let option = document.querySelectorAll(".option");
 
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
@@ -112,5 +113,12 @@ btnD.forEach((value, id) => {
         writeText(data[localStorage.getItem('difficulty')], content);
     });
 });
+
+selected.forEach((element, id) => {
+    element.addEventListener("click", () => {
+        option[id].style.display = "flex";
+    });
+});
+
 
 timeRun(timeInterval, time, main, footer, resultat);

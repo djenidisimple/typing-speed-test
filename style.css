@@ -264,15 +264,75 @@ footer {
     height: 10px;
     background: url(./asseat/Easy\ Label.svg) center no-repeat;
 }
-select {
-    width: 100%;
-    border-radius: 8px;
-    color: var(--neutral-0);
-    padding: 6px 10px;
+.selected {
+    height: 31px;
     border: 1px solid var(--neutral-400);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: var(--neutral-0);
     cursor: pointer;
+}
+.input-choice {
+    position: relative;
+}
+.option {
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    background-color: var(--neutral-800);
+    border-radius: 8px;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    color: var(--neutral-0);
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 2;
+}
+.option > div {
+    display: flex;
+    align-items: start;
+    gap: 6px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-top: 1px solid var(--neutral-700);
+}
+.option > div:first-child {
+    border-top: none;
+}
+input[type="radio"] {
+    display: block;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    appearance: none;
     background-color: transparent;
-    text-align: center;
+    border: 1px solid var(--neutral-0);
+}
+input[type="radio"]:focus, input[type="radio"]:checked {
+    border: none;
+    background-color: var(--blue-400);
+}
+input[type="radio"]:focus::after, input[type="radio"]:checked::after {
+    position: absolute;
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: var(--neutral-900);
+}
+label > svg {
+    stroke: var(--neutral-0);
 }
 .space-between {
     display: flex;
@@ -295,6 +355,10 @@ select {
 .center {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+.center-y {
+    display: flex;
     align-items: center;
 }
 .desktop {
