@@ -222,7 +222,16 @@ footer {
 .choice {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
     gap: 10px;
+}
+.level {
+    display: flex;
+    justify-content: flex-start;
+}
+.mode {
+    display: flex;
+    justify-content: flex-end;
 }
 .text-center {
     text-align: center;
@@ -299,7 +308,8 @@ footer {
     background: url(./asseat/Easy\ Label.svg) center no-repeat;
 }
 .selected {
-    height: 31px;
+    width: 166.5px;
+    height: 32px;
     border: 1px solid var(--neutral-400);
     border-radius: 8px;
     display: flex;
@@ -314,6 +324,7 @@ footer {
 }
 .input-choice {
     position: relative;
+    max-width: 166.5px;
 }
 .option {
     width: 100%;
@@ -393,7 +404,7 @@ label > svg {
     align-items: center;
 }
 .center {
-    display: flex;
+    display: flex!important;
     justify-content: center;
     align-items: center;
 }

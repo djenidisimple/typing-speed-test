@@ -9,7 +9,8 @@ let main = document.querySelector("main"), footer = document.querySelector("foot
 let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
-let mode = document.querySelectorAll(".mode");
+let mode = document.querySelectorAll(".mode-input");
+let level = document.querySelectorAll(".level-input");
 let btnD = document.querySelectorAll(".btn-d"), btnStart = document.querySelector(".btn-start");
 let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document.querySelectorAll(".acc");
 let data = await getText();
@@ -79,18 +80,20 @@ restart.addEventListener("click", function() {
 });
 
 btnMode.forEach((value, id) => {
-    if (localStorage.getItem('mode') == "timed" && id % 2 == 0) {
+    if (localStorage.getItem('mode') == "timed(60s)" && id % 2 == 0) {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
+        time.innerText = "60";
     } else if (localStorage.getItem('mode') == "passage" && id % 2 != 0) {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
+        time.innerText = "00";
     }
     value.addEventListener("click", function() {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
         if (id % 2 == 0) {
-            localStorage.setItem('mode', "timed");
+            localStorage.setItem('mode', "timed(60s)");
             time.innerText = "60";
             timeRun(timeInterval, time, main, footer, resultat, start);
         } else {
@@ -138,3 +141,34 @@ selected.forEach((element, id) => {
         }
     });
 });
+
+mode.forEach((element) => {
+    checked(element);
+    element.addEventListener("click", () => {
+        checked(element, "click");
+    });
+});
+
+level.forEach((element) => {
+    checked(element, null, "difficulty");
+    element.addEventListener("click", () => {
+        checked(element, "click", "difficulty");
+    });
+});
+
+function checked(element, event=null, type="mode") {
+    if (event == "click") {
+        localStorage.setItem(type, element.value);
+    }
+    if (element.value == localStorage.getItem(type)) {
+        mode.forEach((value) => value.checked = false);
+        element.checked = true;
+        document.querySelector(`.label-${type}-input`).innerText = (element.value);
+        document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
+        if (element.value == "timed(60s)") {
+            time.innerText = "60";
+        } else {
+            time.innerText = "00";
+        }
+    }
+}

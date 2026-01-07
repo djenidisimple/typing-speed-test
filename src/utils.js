@@ -30,7 +30,7 @@ function timeRun(timeInterval, time, main, footer, resultat, start) {
 
     if (start) {
         timeInterval = setInterval(() => {
-            if (localStorage.getItem('mode') != "timed") {
+            if (localStorage.getItem('mode') != "timed(60s)") {
                 time.innerText = "00";
                 clearInterval(timeInterval);
                 return;
