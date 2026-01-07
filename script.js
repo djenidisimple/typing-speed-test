@@ -9,13 +9,15 @@ let main = document.querySelector("main"), footer = document.querySelector("foot
 let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
-let btnD = document.querySelectorAll(".btn-d");
+let mode = document.querySelectorAll(".mode");
+let btnD = document.querySelectorAll(".btn-d"), btnStart = document.querySelector(".btn-start");
 let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document.querySelectorAll(".acc");
 let data = await getText();
 let text = data[localStorage.getItem('difficulty') || "easy"];
 let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
+let start = false;
 
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
@@ -29,7 +31,7 @@ span = generateBackground(background);
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
-    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0) {
+    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
         textUser.push(e.key);
         wpm.forEach((value) => value.innerText = countWord(textUser));
         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
@@ -44,7 +46,7 @@ document.addEventListener("keydown", function(e) {
             cursor++;
             span[cursor].classList.add("pointer");
         }
-    } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0) {
+    } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
         span[cursor].classList.remove("pointer");
         span[cursor - 1].style.color = "var(--neutral-400)";
         span[cursor - 1].style.textDecoration = "none";
@@ -54,6 +56,13 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
+btnStart.addEventListener("click", () => {
+    start = true;
+    document.querySelector(".container-start").style.display = "none";
+    document.querySelector("footer").classList.remove("display-none");
+    content.classList.remove("effet-blur");
+    timeRun(timeInterval, time, main, footer, resultat, start);
+});
 
 restart.addEventListener("click", function() {
     textUser = [];
@@ -83,13 +92,15 @@ btnMode.forEach((value, id) => {
         if (id % 2 == 0) {
             localStorage.setItem('mode', "timed");
             time.innerText = "60";
-            timeRun(timeInterval, time, main, footer, resultat);
+            timeRun(timeInterval, time, main, footer, resultat, start);
         } else {
             localStorage.setItem('mode', 'passage');
             time.innerText = "00";
         }
     });
 });
+
+
 
 btnD.forEach((value, id) => {
     if (localStorage.getItem('difficulty') == "easy" && id == 0) {
@@ -127,7 +138,3 @@ selected.forEach((element, id) => {
         }
     });
 });
-
-
-
-timeRun(timeInterval, time, main, footer, resultat);

@@ -116,6 +116,8 @@ button {
     position: relative;
     padding-top: 32px;
     padding-bottom: 32px;
+}
+.effet-blur {
     filter: blur(4px);
 }
 .blur {
@@ -195,7 +197,6 @@ header {
     margin-bottom: 32px;
 }
 footer {
-    display: none!important;
     width: 100%;
     padding-top: 24px;
 }
@@ -402,6 +403,9 @@ label > svg {
 }
 .desktop {
     display: none;
+}
+.display-none {
+    display: none!important;
 }
 
 .align-card {

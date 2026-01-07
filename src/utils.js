@@ -22,26 +22,28 @@ function countWord(word) {
     return count;
 }
 
-function timeRun(timeInterval, time, main, footer, resultat) {
+function timeRun(timeInterval, time, main, footer, resultat, start) {
 
     if (timeInterval) {
         clearInterval(timeInterval);
     }
 
-    timeInterval = setInterval(() => {
-        if (localStorage.getItem('mode') != "timed") {
-            time.innerText = "00";
-            clearInterval(timeInterval);
-            return;
-        }
-    
-        time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
-        if (time.textContent == "0") {
-            main.style.display = "none";
-            footer.classList.remove("border-t");
-            resultat.style.display = "block";
-        }
-    }, 1000);
+    if (start) {
+        timeInterval = setInterval(() => {
+            if (localStorage.getItem('mode') != "timed") {
+                time.innerText = "00";
+                clearInterval(timeInterval);
+                return;
+            }
+        
+            time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
+            if (time.textContent == "0") {
+                main.style.display = "none";
+                footer.classList.remove("border-t");
+                resultat.style.display = "block";
+            }
+        }, 1000);
+    }
 
 }
 
