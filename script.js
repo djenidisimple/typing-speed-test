@@ -10,16 +10,18 @@ let time = document.querySelector(".time");
 let resultat = document.querySelector(".resultat");
 let btnMode = document.querySelectorAll(".btn-mode");
 let btnD = document.querySelectorAll(".btn-d");
-let timeInterval = null, wpm = document.querySelectorAll(".wpm");
+let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document.querySelectorAll(".acc");
 let data = await getText();
 let text = data[localStorage.getItem('difficulty') || "easy"];
 let selected = document.querySelectorAll(".selected");
+let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
 
 time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
 background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
+acc.forEach((value) => value.innerText = "100%");
 writeText(text, content);
 
 resultat.style.display = "none";
@@ -116,9 +118,16 @@ btnD.forEach((value, id) => {
 
 selected.forEach((element, id) => {
     element.addEventListener("click", () => {
-        option[id].style.display = "flex";
+        if (option[id].style.display == "flex") {
+            option[id].style.display = "none";
+            iconSelected[id].classList.remove("selected-active");
+        } else {
+            option[id].style.display = "flex";
+            iconSelected[id].classList.add("selected-active");
+        }
     });
 });
+
 
 
 timeRun(timeInterval, time, main, footer, resultat);

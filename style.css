@@ -8,6 +8,7 @@
     /* green color */
     --green-500: #4DD67B;
     --charcoal-brown: #3F4531;
+    --effet-glace: rgba(255, 255, 255, 0.1);
     /* red color */
     --red-500: rgba(214, 77, 91, 1);
     --red-600: rgba(255, 0, 0, 0.1);
@@ -115,6 +116,21 @@ button {
     position: relative;
     padding-top: 32px;
     padding-bottom: 32px;
+    filter: blur(4px);
+}
+.blur {
+    position: relative;
+}
+.container-start {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .pointer {
     width: 2vw;
@@ -159,10 +175,27 @@ button {
 .btn-level {
     border: none;
 }
+.btn-start {
+    width: 216px;
+    height: 56px;
+    background-color: var(--blue-600);
+    font-size: var(--text-preset-3);
+    line-height: 120%;
+    letter-spacing: -0.3px;
+    padding: 16px 24px;
+    border-radius: 12px!important;
+}
+.btn-start:focus {
+    box-shadow: 0 0 0 3px var(--neutral-900), 0 0 0 5px var(--blue-400);
+}
+.btn-start:hover {
+    background-color: var(--blue-400);
+}
 header {
     margin-bottom: 32px;
 }
 footer {
+    display: none!important;
     width: 100%;
     padding-top: 24px;
 }
@@ -275,6 +308,9 @@ footer {
     color: var(--neutral-0);
     cursor: pointer;
 }
+.selected-active {
+    transform: rotateX(180deg);
+}
 .input-choice {
     position: relative;
 }
@@ -282,7 +318,9 @@ footer {
     width: 100%;
     position: absolute;
     top: 50px;
-    background-color: var(--neutral-800);
+    background: var(--effet-glace);
+    backdrop-filter: blur(10px) brightness(1);
+    -webkit-backdrop-filter: blur(10px) brightness(1);
     border-radius: 8px;
     padding-bottom: 5px;
     box-sizing: border-box;
@@ -301,7 +339,8 @@ footer {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 5px;
-    border-top: 1px solid var(--neutral-700);
+    cursor: pointer;
+    border-top: 1px solid var(--neutral-400);
 }
 .option > div:first-child {
     border-top: none;

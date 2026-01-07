@@ -22,15 +22,15 @@
         <div class="config border-b">
             <div class="stat">
                 <div class="flex-stat stat-gap">
-                    <span class="size-preset-3">WPM:</span> <span class="size-preset-2 text-white bold wpm">40</span>
+                    <span class="size-preset-3">WPM:</span> <span class="size-preset-2 text-white bold wpm text-center">40</span>
                 </div>
                 <div class="divider"></div>
                 <div class="flex-stat stat-gap">
-                    <span class="size-preset-3">Accuracy:</span> <span class="size-preset-2 text-red bold">94%</span>
+                    <span class="size-preset-3">Accuracy:</span> <span class="size-preset-2 text-white bold acc text-center">94%</span>
                 </div>
                 <div class="divider"></div>
                 <div class="flex-stat stat-gap">
-                    <span class="size-preset-3">Time:</span> <span class="size-preset-2 text-yellow bold time">0:46</span>
+                    <span class="size-preset-3">Time:</span> <span class="size-preset-2 text-yellow bold time text-center">0:46</span>
                 </div>
             </div>
             <div class="choice pt-20 pb-16 mobile">
@@ -39,6 +39,7 @@
                         <label for="choice" class="selected">
                             Hard
                             <svg 
+                                class="icon-selected"
                                 width="11" 
                                 height="6" 
                                 viewBox="0 0 11 6" 
@@ -69,6 +70,7 @@
                         <label for="choice" class="selected">
                             Timed(60s)
                             <svg 
+                                class="icon-selected"
                                 width="11" 
                                 height="6" 
                                 viewBox="0 0 11 6" 
@@ -83,10 +85,10 @@
                         </label>
                         <div class="option">
                             <div>
-                                <input type="radio" name="level" value="medium"> <label for="Medium">Timed(60s)</label>
+                                <input type="radio" name="mode" value="medium"> <label for="Medium">Timed(60s)</label>
                             </div>
                             <div>
-                                <input type="radio" name="level" value="hard" checked> <label for="Hard">Passage</label>
+                                <input type="radio" name="mode" value="hard" checked> <label for="Hard">Passage</label>
                             </div>
                         </div>
                     </div>
@@ -107,7 +109,13 @@
                 </div>
             </div>
         </div>
-        <div class="content size-preset-1">
+        <div class="blur">
+            <div class="content size-preset-1">
+            </div>
+            <div class="container-start">
+                <button type="button" class="btn-start">Start Typing Test</button>
+                <p class="text-preset-3 text-white">Or click the text and start typing</p>
+            </div>
         </div>
     </main>
     <footer class="border-t gap-24 flex-col">
