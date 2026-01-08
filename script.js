@@ -106,6 +106,7 @@ btnMode.forEach((value, id) => {
 
 
 btnD.forEach((value, id) => {
+    console.log(localStorage.getItem('difficulty'));
     if (localStorage.getItem('difficulty') == "easy" && id == 0) {
         btnD.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
