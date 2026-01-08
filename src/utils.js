@@ -1,15 +1,6 @@
-async function getText() {
-    const response = await fetch("./data.json");   
-    if (!response.ok) {
-        return null;
-    }
-    const data = await response.json();
-    return data;
-}
-
 function writeText(text, content) {
-    content.innerHTML = "";
-    text.split("").forEach(value => {
+    content.innerText = "";
+    text.split("").forEach((value) => {
         content.innerHTML += "<span class='text'>"+ value + "</span>";
     });
 }
@@ -30,11 +21,11 @@ function timeRun(timeInterval, time, main, footer, resultat, start) {
 
     if (start) {
         timeInterval = setInterval(() => {
-            if (localStorage.getItem('mode') != "timed(60s)") {
-                time.innerText = "00";
-                clearInterval(timeInterval);
-                return;
-            }
+            // if (localStorage.getItem('mode') != "timed(60s)") {
+            //     time.innerText = "00";
+            //     clearInterval(timeInterval);
+            //     return;
+            // }
         
             time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
             if (time.textContent == "0") {
@@ -60,4 +51,4 @@ function generateBackground(background) {
     return span;
 }
 
-export { getText, writeText, countWord, timeRun, generateBackground }
+export { writeText, countWord, timeRun, generateBackground }

@@ -1,4 +1,5 @@
-import { countWord, generateBackground, getText, timeRun, writeText } from "./src/utils.js";
+import { valueText } from "./src/load.js";
+import { countWord, generateBackground, timeRun, writeText } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body, span, textUser = [], color = "";
@@ -13,26 +14,25 @@ let mode = document.querySelectorAll(".mode-input");
 let level = document.querySelectorAll(".level-input");
 let btnD = document.querySelectorAll(".btn-d"), btnStart = document.querySelector(".btn-start");
 let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document.querySelectorAll(".acc");
-let data = await getText();
-let text = data[localStorage.getItem('difficulty') || "easy"];
 let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
 let start = false;
+let text = valueText[localStorage.getItem('difficulty') || "easy"];
 
-time.innerText = (localStorage.getItem('mode') == "timed") ? "60" : "00";
+time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
 background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
-writeText(text, content);
+writeText(valueText[localStorage.getItem('difficulty') || "easy"], content);
 
 resultat.style.display = "none";
 span = generateBackground(background);
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
-    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
+    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0) {
         textUser.push(e.key);
         wpm.forEach((value) => value.innerText = countWord(textUser));
         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
@@ -106,7 +106,6 @@ btnMode.forEach((value, id) => {
 
 
 btnD.forEach((value, id) => {
-    console.log(localStorage.getItem('difficulty'));
     if (localStorage.getItem('difficulty') == "easy" && id == 0) {
         btnD.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
@@ -127,7 +126,7 @@ btnD.forEach((value, id) => {
         } else {
             localStorage.setItem('difficulty', 'hard');
         }
-        writeText(data[localStorage.getItem('difficulty')], content);
+        writeText(valueText[localStorage.getItem('difficulty')], content);
     });
 });
 
@@ -168,7 +167,7 @@ function checked(element, event=null, type="mode") {
         document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
         if (element.value == "timed(60s)") {
             time.innerText = "60";
-        } else {
+        } else if (element.value == "passage"){
             time.innerText = "00";
         }
     }
