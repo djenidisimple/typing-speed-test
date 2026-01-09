@@ -32,7 +32,7 @@ span = generateBackground(background);
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
-    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0) {
+    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
         textUser.push(e.key);
         wpm.forEach((value) => value.innerText = countWord(textUser));
         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
@@ -167,7 +167,7 @@ function checked(element, event=null, type="mode") {
         document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
         if (element.value == "timed(60s)") {
             time.innerText = "60";
-        } else if (element.value == "passage"){
+        } else if (element.value == "passage") {
             time.innerText = "00";
         }
     }
