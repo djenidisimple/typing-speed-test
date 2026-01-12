@@ -1,9 +1,9 @@
-function writeText(text, content) {
-    content.innerText = "";
-    text.split("").forEach((value) => {
-        content.innerHTML += "<span class='text'>"+ value + "</span>";
-    });
-}
+// function writeText(text, content) {
+//     content.innerText = "";
+//     text.split("").forEach((value) => {
+//         content.innerHTML += "<span class='text'>"+ value + "</span>";
+//     });
+// }
 
 function countWord(word) {
     let count = 0;
@@ -21,11 +21,11 @@ function timeRun(timeInterval, time, main, footer, resultat, start) {
 
     if (start) {
         timeInterval = setInterval(() => {
-            // if (localStorage.getItem('mode') != "timed(60s)") {
-            //     time.innerText = "00";
-            //     clearInterval(timeInterval);
-            //     return;
-            // }
+            if (localStorage.getItem('mode') != "timed(60s)") {
+                time.innerText = "00";
+                clearInterval(timeInterval);
+                return;
+            }
         
             time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
             if (time.textContent == "0") {
@@ -51,4 +51,4 @@ function generateBackground(background) {
     return span;
 }
 
-export { writeText, countWord, timeRun, generateBackground }
+export { countWord, timeRun, generateBackground }
