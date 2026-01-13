@@ -5,7 +5,6 @@ import { valueText } from "./src/load.js";
 let background = document.createElement("div");
 let body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
-let cursor = 0;
 let restart = document.querySelector(".btn-restart");
 let main = document.querySelector("main"), footer = document.querySelector("footer");
 let time = document.querySelector(".time");
@@ -18,6 +17,7 @@ let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document
 let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
+let cursor = 0;
 let start = false;
 let text = valueText[localStorage.getItem('difficulty') || "easy"], textValue = [];
 let canvas = document.querySelector("canvas");
@@ -106,7 +106,7 @@ function renderText() {
         let charX = textValue[i].x;
         while (j < textValue[i].text.length) {
             let char = textValue[i].text[j];
-            if (pLine == i && j >= cursor) {
+            if (i == pLine && j >= cursor) {
                 end = true;
             } 
             if (end) {
@@ -119,7 +119,7 @@ function renderText() {
             j++;
         }
         i++;
-        j=0;
+        j = 0;
     }
     drawCusor();
 }
@@ -129,7 +129,7 @@ function drawCusor() {
     for (let i = 0; i < cursor; i++) {
         cursorX += ctx.measureText(textValue[pLine].text[i]).width;
     }
-    let currrentText = textValue[pLine].text[cursor];
+    let currrentText = textValue[pLine].text[cursor] || " ";
     let charWidth = ctx.measureText(currrentText).width;
     ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
     ctx.fillRect(
