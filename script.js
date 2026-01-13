@@ -5,7 +5,7 @@ import { valueText } from "./src/load.js";
 let background = document.createElement("div");
 let body = document.body, span, textUser = [], color = "";
 let content = document.querySelector(".content");
-let cursor = (textUser.length - 1 < 0) ? 0 : textUser.length - 1;
+let cursor = 0;
 let restart = document.querySelector(".btn-restart");
 let main = document.querySelector("main"), footer = document.querySelector("footer");
 let time = document.querySelector(".time");
@@ -19,9 +19,9 @@ let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
 let start = false;
-let text = valueText[localStorage.getItem('difficulty') || "easy"];
+let text = valueText[localStorage.getItem('difficulty') || "easy"], textValue = [];
 let canvas = document.querySelector("canvas");
-let ctx = canvas.getContext("2d");
+let ctx = canvas.getContext("2d"), pLine = 0, count = 0;
 
 time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
 background.className = "background";
@@ -70,17 +70,17 @@ function resizeCanvas() {
 }
 
 function renderText() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let fontSize = getFontSize();
     let words = valueText[localStorage.getItem('difficulty') || "easy"].split(" ");
     let padding = 26, line = "", lineHeight = padding * 1.4;
     let x = padding, y = padding + fontSize, maxWidth = canvas.width - (padding * 2);
     ctx.font = `${fontSize}px serif`;
-    let text = [];
     for (let i = 0; i < words.length; i++) {
         let testLine = line + (line ? " " : "") + words[i];
         let metrics = ctx.measureText(testLine);
         if (metrics.width > maxWidth && line !== "") {
-            text.push({
+            textValue.push({
                 text: line,
                 x: x,
                 y: y,
@@ -88,61 +88,103 @@ function renderText() {
             });
             line = words[i] + " ";
             y += lineHeight;
+            count++;
         } else {
             line = testLine;
         }
     }
     if(line) {
-        text.push({
+        textValue.push({
             text: line,
             x: x,
             y: y,
             width: ctx.measureText(line).width,
         });
     }
-    text.forEach((value) => {
-        ctx.fillStyle = "white";
-        ctx.fillText(value.text, value.x, value.y, value.width);
-    });
+    let i = 0, j = 0, end = false;
+    while (i <= count) {
+        let charX = textValue[i].x;
+        while (j < textValue[i].text.length) {
+            let char = textValue[i].text[j];
+            if (pLine == i && j >= cursor) {
+                end = true;
+            } 
+            if (end) {
+                ctx.fillStyle = "white";
+            } else {
+                ctx.fillStyle = "green";
+            }
+            ctx.fillText(char, charX, textValue[i].y);
+            charX += ctx.measureText(char).width;
+            j++;
+        }
+        i++;
+        j=0;
+    }
+    drawCusor();
+}
+
+function drawCusor() {
+    let cursorX = textValue[pLine].x;
+    for (let i = 0; i < cursor; i++) {
+        cursorX += ctx.measureText(textValue[pLine].text[i]).width;
+    }
+    let currrentText = textValue[pLine].text[cursor];
+    let charWidth = ctx.measureText(currrentText).width;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.fillRect(
+        cursorX, 
+        textValue[pLine].y - getFontSize() + 4, 
+        charWidth, 
+        getFontSize()
+    );
 }
 
 resizeCanvas();
 renderText();
 
-// document.addEventListener("keydown", function(e) {
-//     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
-//     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
-//         textUser.push(e.key);
-//         wpm.forEach((value) => value.innerText = countWord(textUser));
-//         color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
-//         span[cursor].style.color = color;
-//         if (cursor + 1 == text.split("").length) {
-//             main.style.display = "none";
-//             resultat.style.display = "block";
-//             footer.classList.remove("border-t");
-//         } else {
-//             span[cursor].classList.remove("pointer");
-//             if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
-//             cursor++;
-//             span[cursor].classList.add("pointer");
-//         }
-//     } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
-//         span[cursor].classList.remove("pointer");
-//         span[cursor - 1].style.color = "var(--neutral-400)";
-//         span[cursor - 1].style.textDecoration = "none";
-//         textUser.pop()
-//         cursor = (cursor > 0) ? cursor - 1 : 0;
-//         span[cursor].classList.add("pointer");
-//     }
-// });
+document.addEventListener("keydown", function(e) {
+    let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
+    if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
+        cursor++;
+        if (textValue[pLine].text[cursor] == undefined && pLine < count) {
+            pLine++;
+            cursor = 0;
+        }
+        renderText();
+    }
+    // if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
+    //     textUser.push(e.key);
+    //     wpm.forEach((value) => value.innerText = countWord(textUser));
+    //     color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
+    //     span[cursor].style.color = color;
+    //     if (cursor + 1 == text.split("").length) {
+    //         main.style.display = "none";
+    //         resultat.style.display = "block";
+    //         footer.classList.remove("border-t");
+    //     } else {
+    //         span[cursor].classList.remove("pointer");
+    //         if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
+    //         cursor++;
+    //         span[cursor].classList.add("pointer");
+    //     }
+    // } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
+    //     span[cursor].classList.remove("pointer");
+    //     span[cursor - 1].style.color = "var(--neutral-400)";
+    //     span[cursor - 1].style.textDecoration = "none";
+    //     textUser.pop()
+    //     cursor = (cursor > 0) ? cursor - 1 : 0;
+    //     span[cursor].classList.add("pointer");
+    // }
+});
 
-// btnStart.addEventListener("click", () => {
-//     start = true;
-//     document.querySelector(".container-start").style.display = "none";
-//     document.querySelector("footer").classList.remove("display-none");
-//     content.classList.remove("effet-blur");
-//     timeRun(timeInterval, time, main, footer, resultat, start);
-// });
+btnStart.addEventListener("click", () => {
+    start = true;
+    document.querySelector(".container-start").style.display = "none";
+    document.querySelector("footer").classList.remove("display-none");
+    canvas.classList.remove("effet-blur");
+    // timeRun(timeInterval, time, main, footer, resultat, start);
+});
 
 // restart.addEventListener("click", function() {
 //     textUser = [];
