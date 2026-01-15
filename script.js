@@ -1,6 +1,6 @@
 import { valueText } from "./src/load.js";
 // import { countWord, generateBackground, timeRun, writeText } from "./src/utils.js";
-// import { generateBackground } from "./src/utils.js";
+import { generateBackground } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body, span, textUser = [], color = "";
@@ -28,10 +28,9 @@ background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
-// writeText(valueText[localStorage.getItem('difficulty') || "easy"], content);
 
 resultat.style.display = "none";
-// span = generateBackground(background);
+generateBackground(background);
 
 function getFontSize() {
     let baseFontSize = 20, scaleFactor = Math.min(canvas.width / 400, 1.5);
@@ -70,6 +69,8 @@ function resizeCanvas() {
 }
 
 function renderText() {
+    textValue = [];
+    let count = 0
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let fontSize = getFontSize();
     let words = valueText[localStorage.getItem('difficulty') || "easy"].split(" ");

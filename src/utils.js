@@ -1,10 +1,3 @@
-// function writeText(text, content) {
-//     content.innerText = "";
-//     text.split("").forEach((value) => {
-//         content.innerHTML += "<span class='text'>"+ value + "</span>";
-//     });
-// }
-
 function countWord(word) {
     let count = 0;
     for (let i = 0; i < word.length; i++) {
@@ -39,16 +32,11 @@ function timeRun(timeInterval, time, main, footer, resultat, start) {
 }
 
 function generateBackground(background) {
-    let span = document.querySelectorAll("span.text"), div;
-    span[0].classList.add("pointer");
-
-    // background
     for (let i = 0; i < 12; i++) {
-        div = document.createElement("div");
+        let div = document.createElement("div");
         div.className = "items";
         background.appendChild(div);
     }
-    return span;
 }
 
 export { countWord, timeRun, generateBackground }
