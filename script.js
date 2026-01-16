@@ -1,10 +1,8 @@
 import { valueText } from "./src/load.js";
-// import { countWord, generateBackground, timeRun, writeText } from "./src/utils.js";
 import { generateBackground } from "./src/utils.js";
 
 let background = document.createElement("div");
-let body = document.body, span, textUser = [], color = "";
-let content = document.querySelector(".content");
+let body = document.body;
 let restart = document.querySelector(".btn-restart");
 let main = document.querySelector("main"), footer = document.querySelector("footer");
 let time = document.querySelector(".time");
@@ -142,8 +140,14 @@ function drawCusor() {
     );
 }
 
+
 resizeCanvas();
 renderText();
+
+window.addEventListener("resize", () => {
+    resizeCanvas();
+    renderText();
+});
 
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
@@ -156,6 +160,9 @@ document.addEventListener("keydown", function(e) {
             }
             if (pLine >= countLine && cursor == textValue[pLine].text.length) {
                 stop = true;
+                main.style.display = "none";
+                resultat.style.display = "block";
+                footer.classList.remove("border-t");
             }
             renderText();
         }
@@ -190,18 +197,17 @@ btnStart.addEventListener("click", () => {
     document.querySelector(".container-start").style.display = "none";
     document.querySelector("footer").classList.remove("display-none");
     canvas.classList.remove("effet-blur");
-    // timeRun(timeInterval, time, main, footer, resultat, start);
 });
 
 restart.addEventListener("click", function() {
     resultat.style.display = "none";
-    cursor = 0;
-    span.forEach(value => {value.style.color = "var(--neutral-400)"});
+    cursor = 0, pLine = 0, stop = false;
     main.style.display = "block";
     footer.classList.add("border-t");
-    span[cursor].classList.add("pointer");
     time.innerText = "60";
-    wpm.forEach((value) => value.innerText = "0")
+    wpm.forEach((value) => value.innerText = "0");
+    resizeCanvas();
+    renderText();
 });
 
 btnMode.forEach((value, id) => {
@@ -225,6 +231,8 @@ btnMode.forEach((value, id) => {
             localStorage.setItem('mode', 'passage');
             time.innerText = "00";
         }
+        resizeCanvas();
+        renderText();
     });
 });
 
@@ -251,7 +259,8 @@ btnD.forEach((value, id) => {
         } else {
             localStorage.setItem('difficulty', 'hard');
         }
-        writeText(valueText[localStorage.getItem('difficulty')], content);
+        resizeCanvas();
+        renderText();
     });
 });
 
@@ -264,12 +273,16 @@ selected.forEach((element, id) => {
             option[id].style.display = "flex";
             iconSelected[id].classList.add("selected-active");
         }
+        resizeCanvas();
+        renderText();
     });
 });
 
 mode.forEach((element) => {
     checked(element);
     element.addEventListener("click", () => {
+        resizeCanvas();
+        renderText();
         checked(element, "click");
     });
 });
@@ -277,6 +290,8 @@ mode.forEach((element) => {
 level.forEach((element) => {
     checked(element, null, "difficulty");
     element.addEventListener("click", () => {
+        resizeCanvas();
+        renderText();
         checked(element, "click", "difficulty");
     });
 });
