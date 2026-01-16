@@ -21,7 +21,7 @@ let cursor = 0;
 let start = false;
 let text = valueText[localStorage.getItem('difficulty') || "easy"], textValue = [];
 let canvas = document.querySelector("canvas");
-let ctx = canvas.getContext("2d"), pLine = 0, count = 0;
+let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
 
 time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
 background.className = "background";
@@ -122,6 +122,7 @@ function renderText() {
         i++;
         j = 0;
     }
+    countLine = count;
     drawCusor();
 }
 
@@ -147,12 +148,17 @@ renderText();
 document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
-        cursor++;
-        if (textValue[pLine].text[cursor] == undefined && pLine < count) {
-            pLine++;
-            cursor = 0;
+        if (!stop) {
+            cursor++;
+            if (textValue[pLine].text[cursor] == undefined && pLine < countLine) {
+                pLine++;
+                cursor = 0;
+            }
+            if (pLine >= countLine && cursor == textValue[pLine].text.length) {
+                stop = true;
+            }
+            renderText();
         }
-        renderText();
     }
     // if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
     //     textUser.push(e.key);
@@ -187,110 +193,107 @@ btnStart.addEventListener("click", () => {
     // timeRun(timeInterval, time, main, footer, resultat, start);
 });
 
-// restart.addEventListener("click", function() {
-//     textUser = [];
-//     span[cursor].classList.remove("pointer");
-//     span[cursor].style.textDecoration = "none";
-//     resultat.style.display = "none";
-//     cursor = 0;
-//     span.forEach(value => {value.style.color = "var(--neutral-400)"});
-//     main.style.display = "block";
-//     footer.classList.add("border-t");
-//     span[cursor].classList.add("pointer");
-//     time.innerText = "60";
-//     wpm.forEach((value) => value.innerText = "0")
-// });
+restart.addEventListener("click", function() {
+    resultat.style.display = "none";
+    cursor = 0;
+    span.forEach(value => {value.style.color = "var(--neutral-400)"});
+    main.style.display = "block";
+    footer.classList.add("border-t");
+    span[cursor].classList.add("pointer");
+    time.innerText = "60";
+    wpm.forEach((value) => value.innerText = "0")
+});
 
-// btnMode.forEach((value, id) => {
-//     if (localStorage.getItem('mode') == "timed(60s)" && id % 2 == 0) {
-//         btnMode.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//         time.innerText = "60";
-//     } else if (localStorage.getItem('mode') == "passage" && id % 2 != 0) {
-//         btnMode.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//         time.innerText = "00";
-//     }
-//     value.addEventListener("click", function() {
-//         btnMode.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//         if (id % 2 == 0) {
-//             localStorage.setItem('mode', "timed(60s)");
-//             time.innerText = "60";
-//             timeRun(timeInterval, time, main, footer, resultat, start);
-//         } else {
-//             localStorage.setItem('mode', 'passage');
-//             time.innerText = "00";
-//         }
-//     });
-// });
+btnMode.forEach((value, id) => {
+    if (localStorage.getItem('mode') == "timed(60s)" && id % 2 == 0) {
+        btnMode.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+        time.innerText = "60";
+    } else if (localStorage.getItem('mode') == "passage" && id % 2 != 0) {
+        btnMode.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+        time.innerText = "00";
+    }
+    value.addEventListener("click", function() {
+        btnMode.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+        if (id % 2 == 0) {
+            localStorage.setItem('mode', "timed(60s)");
+            time.innerText = "60";
+            timeRun(timeInterval, time, main, footer, resultat, start);
+        } else {
+            localStorage.setItem('mode', 'passage');
+            time.innerText = "00";
+        }
+    });
+});
 
 
 
-// btnD.forEach((value, id) => {
-//     if (localStorage.getItem('difficulty') == "easy" && id == 0) {
-//         btnD.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//     } else if (localStorage.getItem('difficulty') == "medium" && id == 1) {
-//         btnD.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//     } else if (localStorage.getItem('difficulty') == "hard" && id == 2) {
-//         btnD.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//     }
-//     value.addEventListener("click", function() {
-//         btnD.forEach(v => v.classList.remove("border-blue-400"));
-//         value.classList.add("border-blue-400");
-//         if (id == 0) {
-//             localStorage.setItem('difficulty', 'easy');
-//         } else if (id == 1) {
-//             localStorage.setItem('difficulty', 'medium');
-//         } else {
-//             localStorage.setItem('difficulty', 'hard');
-//         }
-//         writeText(valueText[localStorage.getItem('difficulty')], content);
-//     });
-// });
+btnD.forEach((value, id) => {
+    if (localStorage.getItem('difficulty') == "easy" && id == 0) {
+        btnD.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+    } else if (localStorage.getItem('difficulty') == "medium" && id == 1) {
+        btnD.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+    } else if (localStorage.getItem('difficulty') == "hard" && id == 2) {
+        btnD.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+    }
+    value.addEventListener("click", function() {
+        btnD.forEach(v => v.classList.remove("border-blue-400"));
+        value.classList.add("border-blue-400");
+        if (id == 0) {
+            localStorage.setItem('difficulty', 'easy');
+        } else if (id == 1) {
+            localStorage.setItem('difficulty', 'medium');
+        } else {
+            localStorage.setItem('difficulty', 'hard');
+        }
+        writeText(valueText[localStorage.getItem('difficulty')], content);
+    });
+});
 
-// selected.forEach((element, id) => {
-//     element.addEventListener("click", () => {
-//         if (option[id].style.display == "flex") {
-//             option[id].style.display = "none";
-//             iconSelected[id].classList.remove("selected-active");
-//         } else {
-//             option[id].style.display = "flex";
-//             iconSelected[id].classList.add("selected-active");
-//         }
-//     });
-// });
+selected.forEach((element, id) => {
+    element.addEventListener("click", () => {
+        if (option[id].style.display == "flex") {
+            option[id].style.display = "none";
+            iconSelected[id].classList.remove("selected-active");
+        } else {
+            option[id].style.display = "flex";
+            iconSelected[id].classList.add("selected-active");
+        }
+    });
+});
 
-// mode.forEach((element) => {
-//     checked(element);
-//     element.addEventListener("click", () => {
-//         checked(element, "click");
-//     });
-// });
+mode.forEach((element) => {
+    checked(element);
+    element.addEventListener("click", () => {
+        checked(element, "click");
+    });
+});
 
-// level.forEach((element) => {
-//     checked(element, null, "difficulty");
-//     element.addEventListener("click", () => {
-//         checked(element, "click", "difficulty");
-//     });
-// });
+level.forEach((element) => {
+    checked(element, null, "difficulty");
+    element.addEventListener("click", () => {
+        checked(element, "click", "difficulty");
+    });
+});
 
-// function checked(element, event=null, type="mode") {
-//     if (event == "click") {
-//         localStorage.setItem(type, element.value);
-//     }
-//     if (element.value == localStorage.getItem(type)) {
-//         mode.forEach((value) => value.checked = false);
-//         element.checked = true;
-//         document.querySelector(`.label-${type}-input`).innerText = (element.value);
-//         document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
-//         if (element.value == "timed(60s)") {
-//             time.innerText = "60";
-//         } else if (element.value == "passage") {
-//             time.innerText = "00";
-//         }
-//     }
-// }
+function checked(element, event=null, type="mode") {
+    if (event == "click") {
+        localStorage.setItem(type, element.value);
+    }
+    if (element.value == localStorage.getItem(type)) {
+        mode.forEach((value) => value.checked = false);
+        element.checked = true;
+        document.querySelector(`.label-${type}-input`).innerText = (element.value);
+        document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
+        if (element.value == "timed(60s)") {
+            time.innerText = "60";
+        } else if (element.value == "passage") {
+            time.innerText = "00";
+        }
+    }
+}
