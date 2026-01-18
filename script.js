@@ -15,7 +15,7 @@ let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document
 let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
-let cursor = 0;
+let cursor = 0, color = [];
 let start = false;
 let text = valueText[localStorage.getItem('difficulty') || "easy"], textValue = [];
 let canvas = document.querySelector("canvas");
