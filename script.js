@@ -15,9 +15,9 @@ let timeInterval = null, wpm = document.querySelectorAll(".wpm"), acc = document
 let selected = document.querySelectorAll(".selected");
 let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
-let cursor = 0, color = [];
+let cursor = 0;
 let start = false;
-let text = valueText[localStorage.getItem('difficulty') || "easy"], textValue = [];
+let textValue = [], textUser = [];
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
 
@@ -31,7 +31,7 @@ resultat.style.display = "none";
 generateBackground(background);
 
 function getFontSize() {
-    let baseFontSize = 20, scaleFactor = Math.min(canvas.width / 400, 1.5);
+    let baseFontSize = 32, scaleFactor = Math.min(canvas.width / 400, 1.5);
     return Math.max(baseFontSize, baseFontSize * scaleFactor);
 }
 
@@ -42,8 +42,9 @@ function resizeCanvas() {
     canvas.style.width = displayWidth + "px";
     let fontSize = getFontSize();
     let words = valueText[localStorage.getItem('difficulty') || "easy"].split(" ");
-    let padding = 26, line = "", lineHeight = padding * 1.4;
-    let y = padding + fontSize, maxWidth = canvas.width - (padding * 2);
+    let line = "", lineHeight = fontSize * 1.36;
+    let padding = 32; 
+    let y = padding + fontSize, maxWidth = canvas.width - 20;
     let tempCanvas = document.createElement("canvas");
     let tempCtx = tempCanvas.getContext("2d");
     tempCtx.font = `${fontSize}px serif`;
@@ -58,7 +59,7 @@ function resizeCanvas() {
             line = testLine;
         }
     }
-    let needHeight = y + padding + lineHeight;
+    let needHeight = y + padding;
     if (Math.abs(canvas.height - needHeight) > 5) {
         canvas.height = needHeight;
         canvas.style.height = needHeight + "px";
@@ -68,12 +69,13 @@ function resizeCanvas() {
 
 function renderText() {
     textValue = [];
-    let count = 0
+    let count = 0;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let fontSize = getFontSize();
     let words = valueText[localStorage.getItem('difficulty') || "easy"].split(" ");
-    let padding = 26, line = "", lineHeight = padding * 1.4;
-    let x = padding, y = padding + fontSize, maxWidth = canvas.width - (padding * 2);
+    let line = "", lineHeight = fontSize * 1.36;
+    let padding = 32;
+    let x = 5, y = padding + fontSize, maxWidth = canvas.width - 20;
     ctx.font = `${fontSize}px serif`;
     for (let i = 0; i < words.length; i++) {
         let testLine = line + (line ? " " : "") + words[i];
@@ -85,7 +87,7 @@ function renderText() {
                 y: y,
                 width: ctx.measureText(line).width,
             });
-            line = words[i] + " ";
+            line = words[i];
             y += lineHeight;
             count++;
         } else {
@@ -100,7 +102,7 @@ function renderText() {
             width: ctx.measureText(line).width,
         });
     }
-    let i = 0, j = 0, end = false;
+    let i = 0, j = 0, k = 0, end = false, colorText = "";
     while (i <= count) {
         let charX = textValue[i].x;
         while (j < textValue[i].text.length) {
@@ -109,10 +111,12 @@ function renderText() {
                 end = true;
             } 
             if (end) {
-                ctx.fillStyle = "white";
+                colorText = "white";
             } else {
-                ctx.fillStyle = "green";
+                colorText = (char == textUser[k]) ? "green" : "red";
+                k++;
             }
+            ctx.fillStyle = colorText;
             ctx.fillText(char, charX, textValue[i].y);
             charX += ctx.measureText(char).width;
             j++;
@@ -153,6 +157,7 @@ document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
         if (!stop) {
+            textUser.push(e.key);
             cursor++;
             if (textValue[pLine].text[cursor] == undefined && pLine < countLine) {
                 pLine++;
@@ -166,47 +171,31 @@ document.addEventListener("keydown", function(e) {
             }
             renderText();
         }
+    } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
+        textUser.pop()
+        cursor = (cursor > 0) ? cursor - 1 : 0;
+        renderText();
     }
-    // if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
-    //     textUser.push(e.key);
-    //     wpm.forEach((value) => value.innerText = countWord(textUser));
-    //     color = (e.key == text.split("")[cursor]) ? "var(--green-500)" : "var(--red-500)";
-    //     span[cursor].style.color = color;
-    //     if (cursor + 1 == text.split("").length) {
-    //         main.style.display = "none";
-    //         resultat.style.display = "block";
-    //         footer.classList.remove("border-t");
-    //     } else {
-    //         span[cursor].classList.remove("pointer");
-    //         if (color == "var(--red-500)") span[cursor].style.textDecoration = "underline";
-    //         cursor++;
-    //         span[cursor].classList.add("pointer");
-    //     }
-    // } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
-    //     span[cursor].classList.remove("pointer");
-    //     span[cursor - 1].style.color = "var(--neutral-400)";
-    //     span[cursor - 1].style.textDecoration = "none";
-    //     textUser.pop()
-    //     cursor = (cursor > 0) ? cursor - 1 : 0;
-    //     span[cursor].classList.add("pointer");
-    // }
 });
 
 btnStart.addEventListener("click", () => {
     start = true;
     document.querySelector(".container-start").style.display = "none";
+    document.querySelector(".blur").classList.add("border-b");
     document.querySelector("footer").classList.remove("display-none");
     canvas.classList.remove("effet-blur");
 });
 
 restart.addEventListener("click", function() {
     resultat.style.display = "none";
-    cursor = 0, pLine = 0, stop = false;
+    cursor = 0, pLine = 0, stop = false, start = false;
     main.style.display = "block";
-    footer.classList.add("border-t");
     time.innerText = "60";
     wpm.forEach((value) => value.innerText = "0");
-    resizeCanvas();
+    document.querySelector(".container-start").style.display = "flex";
+    document.querySelector(".blur").classList.remove("border-b");
+    document.querySelector("footer").classList.add("display-none");
+    canvas.classList.add("effet-blur");
     renderText();
 });
 
