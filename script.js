@@ -1,5 +1,5 @@
 import { valueText } from "./src/load.js";
-import { generateBackground } from "./src/utils.js";
+import { countWord, generateBackground, timeRun } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body;
@@ -17,22 +17,41 @@ let iconSelected = document.querySelectorAll(".icon-selected");
 let option = document.querySelectorAll(".option");
 let cursor = 0;
 let start = false;
-let textValue = [], textUser = [];
+let textValue = [], textUser = [], textWrong = [];
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
+let char = document.querySelector(".char");
+let newScore = document.querySelector(".newScore");
+let score  = document.querySelector(".score");
 
 time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
+
 background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
+if (!localStorage.getItem("bestScore")) {
+    score.classList.remove("display-none");
+    newScore.innerText = localStorage.getItem("bestScore") + " WPM";
+} else {
+    score.classList.add("display-none");
+}
+char.innerText = valueText[localStorage.getItem('difficulty') || "easy"].split("").length;
 
 resultat.style.display = "none";
 generateBackground(background);
 
 function getFontSize() {
-    let baseFontSize = 32, scaleFactor = Math.min(canvas.width / 400, 1.5);
-    return Math.max(baseFontSize, baseFontSize * scaleFactor);
+     const width = canvas.width;
+    if (width <= 400) {
+    return 32;
+    } else if (width <= 768) {
+    return 36;
+    } else if (width <= 1024) {
+    return 38;
+    } else {
+    return 40;
+    }
 }
 
 function resizeCanvas() {
@@ -47,10 +66,10 @@ function resizeCanvas() {
     let y = padding + fontSize, maxWidth = canvas.width - 20;
     let tempCanvas = document.createElement("canvas");
     let tempCtx = tempCanvas.getContext("2d");
-    tempCtx.font = `${fontSize}px serif`;
+    tempCtx.font = `${fontSize}px Sora`;
     
     for (let i = 0; i < words.length; i++) {
-        let testLine = line + words[i];
+        let testLine = line + (line ? " " : "") + words[i];
         let metrics = tempCtx.measureText(testLine);
         if (metrics.width > maxWidth && i > 0) {
             line = words[i] + " ";
@@ -59,7 +78,7 @@ function resizeCanvas() {
             line = testLine;
         }
     }
-    let needHeight = y + padding;
+    let needHeight = y + lineHeight;
     if (Math.abs(canvas.height - needHeight) > 5) {
         canvas.height = needHeight;
         canvas.style.height = needHeight + "px";
@@ -76,7 +95,7 @@ function renderText() {
     let line = "", lineHeight = fontSize * 1.36;
     let padding = 32;
     let x = 5, y = padding + fontSize, maxWidth = canvas.width - 20;
-    ctx.font = `${fontSize}px serif`;
+    ctx.font = `${fontSize}px Sora`;
     for (let i = 0; i < words.length; i++) {
         let testLine = line + (line ? " " : "") + words[i];
         let metrics = ctx.measureText(testLine);
@@ -136,12 +155,15 @@ function drawCusor() {
     let currrentText = textValue[pLine].text[cursor] || " ";
     let charWidth = ctx.measureText(currrentText).width;
     ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-    ctx.fillRect(
+    ctx.beginPath();
+    ctx.roundRect(
         cursorX, 
         textValue[pLine].y - getFontSize() + 4, 
         charWidth, 
-        getFontSize()
+        getFontSize(), 
+        5
     );
+    ctx.fill();
 }
 
 
@@ -157,6 +179,9 @@ document.addEventListener("keydown", function(e) {
     let regex = /[a-zA-Z0-9@.,/?&!#$%^&*()=-`~'";<>\\|\[\]{}\e]/;    
     if (e.key.length === 1 && (regex.test(e.key) || e.keyCode == 32) && cursor >= 0 && start) {
         if (!stop) {
+            if (textValue[pLine].text[cursor] != e.key) {
+                textWrong.push(e.key);
+            }
             textUser.push(e.key);
             cursor++;
             if (textValue[pLine].text[cursor] == undefined && pLine < countLine) {
@@ -167,7 +192,9 @@ document.addEventListener("keydown", function(e) {
                 stop = true;
                 main.style.display = "none";
                 resultat.style.display = "block";
-                footer.classList.remove("border-t");
+                if (localStorage.getItem("bestScore") == undefined || !localStorage.getItem("bestScore") && parseInt(localStorage.getItem("bestScore")) > wpm[0].textContent) {
+                    localStorage.setItem("bestScore", wpm[0].textContent);
+                }
             }
             renderText();
         }
@@ -184,13 +211,18 @@ btnStart.addEventListener("click", () => {
     document.querySelector(".blur").classList.add("border-b");
     document.querySelector("footer").classList.remove("display-none");
     canvas.classList.remove("effet-blur");
+    let wpmValue = countWord(textValue, textWrong, parseInt(time.textContent));
+    wpm.forEach((value) => value.innerText = "0");
+    timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
 });
 
 restart.addEventListener("click", function() {
     resultat.style.display = "none";
-    cursor = 0, pLine = 0, stop = false, start = false;
+    cursor = 0, pLine = 0, stop = false;
+    start = false;
     main.style.display = "block";
     time.innerText = "60";
+    timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
     wpm.forEach((value) => value.innerText = "0");
     document.querySelector(".container-start").style.display = "flex";
     document.querySelector(".blur").classList.remove("border-b");
@@ -215,7 +247,6 @@ btnMode.forEach((value, id) => {
         if (id % 2 == 0) {
             localStorage.setItem('mode', "timed(60s)");
             time.innerText = "60";
-            timeRun(timeInterval, time, main, footer, resultat, start);
         } else {
             localStorage.setItem('mode', 'passage');
             time.innerText = "00";
