@@ -191,7 +191,7 @@ document.addEventListener("keydown", function(e) {
             if (pLine >= countLine && cursor == textValue[pLine].text.length) {
                 stop = true;
                 main.style.display = "none";
-                resultat.style.display = "block";
+                resultat.style.display = "flex";
                 if (localStorage.getItem("bestScore") == undefined || !localStorage.getItem("bestScore") && parseInt(localStorage.getItem("bestScore")) > wpm[0].textContent) {
                     localStorage.setItem("bestScore", wpm[0].textContent);
                 }
