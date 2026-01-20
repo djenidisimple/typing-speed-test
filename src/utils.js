@@ -1,6 +1,45 @@
 function countWord(word, wrong, time) {
     let count = word.length - wrong.length;
+    if (time <= 1) {
+        return count;
+    }
     return Math.floor((count * 12) / time);
+}
+
+function calculateAccuracy(totalWords, wrongWords) {
+    const correctWords = totalWords - wrongWords;
+    return Math.floor((correctWords / totalWords) * 100);
+}
+
+function updateScore(score) {
+    if (localStorage.getItem("bestScore")) {
+        score.innerText = localStorage.getItem("bestScore");
+    }
+}
+
+function getFontSize() {
+    let canvas = document.querySelector("canvas");
+    const width = canvas.width;
+    if (width <= 400) {
+    return 32;
+    } else if (width <= 768) {
+    return 36;
+    } else if (width <= 1024) {
+    return 38;
+    } else {
+    return 40;
+    }
+}
+
+function calculeState(valueText, textWrong) {
+    let text = valueText[localStorage.getItem('difficulty') || "easy"].split("");
+    let wpmValue = countWord(text, textWrong, localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
+    let wpmMax = countWord(text, [], localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
+    let accuracy = calculateAccuracy(text.length, textWrong.length);
+    let wpm = document.querySelectorAll(".wpm");
+    let acc = document.querySelectorAll(".acc");
+    wpm.forEach((value) => value.innerText = wpmValue);
+    acc.forEach((value) => value.innerText = accuracy  + "%");
 }
 
 function timeRun(timeInterval, time, main, footer, resultat, start, textValue, textWrong) {
@@ -23,13 +62,6 @@ function timeRun(timeInterval, time, main, footer, resultat, start, textValue, t
                 footer.classList.remove("border-t");
                 resultat.style.display = "block";
             }
-            let timeValue = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
-            let wpm = document.querySelectorAll(".wpm")
-            let acc = document.querySelectorAll(".acc")
-            let wpmValue = countWord(textValue, textWrong, parseInt(timeValue));
-            let wpmMax = countWord(textValue, [], localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
-            wpm.forEach((value) => value.innerText = wpmValue);
-            acc.forEach((value) => value.innerText = Math.floor(wpmValue / wpmMax)  + "%");
         }, 1000);
     } else {
         clearInterval(timeInterval);
@@ -44,4 +76,4 @@ function generateBackground(background) {
     }
 }
 
-export { countWord, timeRun, generateBackground }
+export { countWord, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }

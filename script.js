@@ -1,5 +1,5 @@
 import { valueText } from "./src/load.js";
-import { countWord, generateBackground, timeRun } from "./src/utils.js";
+import { calculeState, countWord, generateBackground, getFontSize, timeRun, updateScore } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body;
@@ -21,7 +21,6 @@ let textValue = [], textUser = [], textWrong = [];
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
 let char = document.querySelector(".char");
-let newScore = document.querySelector(".newScore");
 let score  = document.querySelector(".score");
 
 time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
@@ -30,29 +29,12 @@ background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
-if (!localStorage.getItem("bestScore")) {
-    score.classList.remove("display-none");
-    newScore.innerText = localStorage.getItem("bestScore") + " WPM";
-} else {
-    score.classList.add("display-none");
-}
+updateScore(score);
 char.innerText = valueText[localStorage.getItem('difficulty') || "easy"].split("").length;
 
 resultat.style.display = "none";
 generateBackground(background);
 
-function getFontSize() {
-     const width = canvas.width;
-    if (width <= 400) {
-    return 32;
-    } else if (width <= 768) {
-    return 36;
-    } else if (width <= 1024) {
-    return 38;
-    } else {
-    return 40;
-    }
-}
 
 function resizeCanvas() {
     const container = canvas.parentElement;
@@ -189,13 +171,15 @@ document.addEventListener("keydown", function(e) {
                 cursor = 0;
             }
             if (pLine >= countLine && cursor == textValue[pLine].text.length) {
+                if (parseInt(score.textContent) < parseInt(wpm[0].textContent)) {
+                    localStorage.setItem("bestScore", wpm[0].textContent);
+                }
+                updateScore(score);
                 stop = true;
                 main.style.display = "none";
                 resultat.style.display = "flex";
-                if (localStorage.getItem("bestScore") == undefined || !localStorage.getItem("bestScore") && parseInt(localStorage.getItem("bestScore")) > wpm[0].textContent) {
-                    localStorage.setItem("bestScore", wpm[0].textContent);
-                }
             }
+            calculeState(valueText, textWrong);
             renderText();
         }
     } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
@@ -214,6 +198,7 @@ btnStart.addEventListener("click", () => {
     let wpmValue = countWord(textValue, textWrong, parseInt(time.textContent));
     wpm.forEach((value) => value.innerText = "0");
     timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
+    calculeState(valueText, textWrong);
 });
 
 restart.addEventListener("click", function() {
