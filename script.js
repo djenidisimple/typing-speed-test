@@ -112,9 +112,9 @@ function renderText() {
                 end = true;
             } 
             if (end) {
-                colorText = "white";
+                colorText = "#949497";
             } else {
-                colorText = (char == textUser[k]) ? "green" : "red";
+                colorText = (char == textUser[k]) ? "#4DD67B" : "rgba(214, 77, 91, 1)";
                 k++;
             }
             ctx.fillStyle = colorText;
@@ -136,7 +136,7 @@ function drawCusor() {
     }
     let currrentText = textValue[pLine].text[cursor] || " ";
     let charWidth = ctx.measureText(currrentText).width;
-    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
     ctx.beginPath();
     ctx.roundRect(
         cursorX, 

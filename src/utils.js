@@ -34,12 +34,16 @@ function getFontSize() {
 function calculeState(valueText, textWrong) {
     let text = valueText[localStorage.getItem('difficulty') || "easy"].split("");
     let wpmValue = countWord(text, textWrong, localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
-    let wpmMax = countWord(text, [], localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
     let accuracy = calculateAccuracy(text.length, textWrong.length);
     let wpm = document.querySelectorAll(".wpm");
     let acc = document.querySelectorAll(".acc");
     wpm.forEach((value) => value.innerText = wpmValue);
     acc.forEach((value) => value.innerText = accuracy  + "%");
+    if (accuracy <= 30) {
+        acc[0].style.color = "var(--red-500)";
+    } else {
+        acc[0].style.color = "var(--neutral-0)";
+    }
 }
 
 function timeRun(timeInterval, time, main, footer, resultat, start, textValue, textWrong) {

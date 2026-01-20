@@ -1,4 +1,5 @@
 async function getText() {
+    await document.fonts.ready;
     const response = await fetch("./data.json");   
     if (!response.ok) {
         return null;
