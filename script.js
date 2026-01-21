@@ -118,6 +118,12 @@ function renderText() {
             }
             ctx.fillStyle = colorText;
             ctx.fillText(char, charX, textValue[i].y);
+            if (colorText == "rgba(214, 77, 91, 1)") {
+                ctx.beginPath();
+                let charWidth = ctx.measureText(char).width;
+                ctx.rect(charX, textValue[i].y + fontSize * 0.2, charWidth, 3);
+                ctx.fill();
+            }
             charX += ctx.measureText(char).width;
             j++;
         }
