@@ -1,5 +1,5 @@
 import { valueText } from "./src/load.js";
-import { calculeState, countWord, generateBackground, getFontSize, timeRun, updateScore } from "./src/utils.js";
+import { calculeState, countWord, generateBackground, getFontSize, resultatFinal, timeRun, updateScore } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body;
@@ -31,7 +31,6 @@ wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
 updateScore(score);
 char.innerText = valueText[localStorage.getItem('difficulty') || "easy"].split("").length;
-
 resultat.style.display = "none";
 generateBackground(background);
 
@@ -178,6 +177,7 @@ document.addEventListener("keydown", function(e) {
                 stop = true;
                 main.style.display = "none";
                 resultat.style.display = "flex";
+                resultatFinal();
             }
             calculeState(valueText, textWrong);
             renderText();

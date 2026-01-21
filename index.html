@@ -111,7 +111,6 @@
         </div>
         <div class="blur border-t">
             <canvas class="effet-blur"></canvas>
-            <!-- <div class="content size-preset-1 effet-blur"></div> -->
             <div class="container-start">
                 <button type="button" class="btn-start">Start Typing Test</button>
                 <p class="text-preset-3 text-white">Or click the text and start typing</p>
@@ -121,7 +120,7 @@
     <footer class="gap-24 flex-col display-none">
         <div class="resultat flex-col gap-36">
             <div class="center p-2">
-                <svg class="testComplete" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="resultLogo boxShadow-green" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_225_2052)">
                         <path d="M0 32C0 14.3269 14.3269 0 32 0C49.6731 0 64 14.3269 64 32C64 49.6731 49.6731 64 32 64C14.3269 64 0 49.6731 0 32Z" fill="#121212"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M45.4501 26.0109L29.8947 41.5663C29.3996 42.0615 28.7562 42.3074 28.1095 42.3074C27.4594 42.3074 26.816 42.0615 26.3208 41.5663L18.5432 33.7886C17.5562 32.8017 17.5562 31.2017 18.5432 30.2147C19.5301 29.2278 21.1267 29.2278 22.1137 30.2147L28.1095 36.2072L41.8762 22.4371C42.8632 21.4501 44.4632 21.4501 45.4501 22.4371C46.4371 23.424 46.4371 25.024 45.4501 26.0109ZM32 0C14.3562 0 0 14.3562 0 32C0 49.6472 14.3562 64 32 64C49.6438 64 64 49.6472 64 32C64 14.3562 49.6438 0 32 0Z" fill="#4DD67B"/>
@@ -132,7 +131,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="bestScore" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="resultLogo boxShadow-yellow" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M29.5788 58.0033C32.5171 60.747 41.1863 56.2323 48.9443 47.9233C56.6987 39.614 60.607 30.6562 57.6687 27.9124C54.7303 25.1686 46.0577 29.6832 38.303 37.9923C30.5452 46.3017 26.6404 55.2597 29.5788 58.0033Z" stroke="#F4DC73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M10.6963 22.9167H10.7742M19.7008 57.1077H19.7786" stroke="#F4DC73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M58.1764 28.5677L69.8877 65.3464C70.4327 67.065 68.8694 68.7127 67.121 68.2554L30.6768 58.665" stroke="#F4DC73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -160,7 +159,12 @@
             </div>
         </div>
         <div class="center">
-            <button type="button" class="btn-restart">Restart Test <img src="./asseat/Undo Icon.svg" alt="Undo"></button>
+            <button type="button" class="btn-restart">
+                Restart Test 
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.5625 1.28125H2.51172C2.75781 1.28125 2.93359 1.49219 2.93359 1.73828L2.86328 5.18359C4.41016 2.82812 7.11719 1.28125 10.1406 1.31641C14.957 1.31641 18.8594 5.25391 18.8594 10.0352C18.8242 14.8516 14.9219 18.7188 10.1406 18.7188C7.89062 18.7188 5.81641 17.875 4.26953 16.5039C4.09375 16.3281 4.09375 16.0469 4.26953 15.8711L4.97266 15.168C5.11328 15.0273 5.35938 15.0273 5.53516 15.168C6.76562 16.2578 8.34766 16.8906 10.1406 16.8906C13.9375 16.8906 17.0312 13.832 17.0312 10C17.0312 6.20312 13.9375 3.10938 10.1406 3.10938C7.32812 3.10938 4.9375 4.79688 3.84766 7.1875L8.27734 7.08203C8.52344 7.08203 8.73438 7.25781 8.73438 7.50391V8.45312C8.73438 8.69922 8.52344 8.875 8.3125 8.875H1.5625C1.31641 8.875 1.14062 8.69922 1.14062 8.45312V1.70312C1.14062 1.49219 1.31641 1.28125 1.5625 1.28125Z" fill="white"/>
+                </svg>
+</button>
         </div>
     </footer>
     <script type="module" src="./script.js"></script>

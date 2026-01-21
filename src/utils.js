@@ -12,8 +12,20 @@ function calculateAccuracy(totalWords, wrongWords) {
 }
 
 function updateScore(score) {
+    let resultLogo = document.querySelectorAll(".resultLogo");
     if (localStorage.getItem("bestScore")) {
         score.innerText = localStorage.getItem("bestScore");
+        resultLogo.forEach((value, id) => {
+            if (id == 0) {
+                value.style.display = "none";
+            }
+        });
+    } else {
+        resultLogo.forEach((value, id) => {
+            if (id == 1) {
+                value.style.display = "none";
+            }
+        });
     }
 }
 
@@ -80,4 +92,15 @@ function generateBackground(background) {
     }
 }
 
-export { countWord, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }
+function resultatFinal() {
+    let testComplete = document.querySelector(".testComplete");
+    let bestScore = document.querySelector(".bestScore");
+    let btnRecord = document.querySelector(".record");
+    btnRecord.classList.remove(".btn-restart");
+    btnRecord.classList.add(".btn-beat");
+    testComplete.style.display = "block";
+    bestScore.style.display = "none";
+    btnRecord.innerText = "Go Again";
+}
+
+export { countWord, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }

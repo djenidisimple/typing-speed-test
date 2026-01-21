@@ -28,12 +28,19 @@
     --text-preset-3: 20px;
     --text-preset-5: 16px;
 }
-.testComplete {
+.resultLogo {
     display: block;
     width: 64px;
     height: 64px;
     border-radius: 50%;
+    cursor: pointer;
+}
+.boxShadow-green {
     box-shadow: 0 0 0 32px rgba(77, 214, 123, 0.1), 0 0 0 16px rgba(77, 214, 123, 0.2);
+}
+.boxShadow-yellow {
+    background-color: rgba(244, 220, 115, 0.5);
+    box-shadow: 0 0 0 32px rgba(244, 220, 115, 0.1), 0 0 0 18px rgba(244, 220, 115, 0.2), 0 0 0 4px rgba(244, 220, 115, 0.3);
 }
 .bestScore {
     display: none;
@@ -224,6 +231,23 @@ footer {
 }
 .btn-restart:hover {
     background-color: var(--neutral-700);
+}
+.btn-beat {
+    cursor: pointer;
+    width: 181px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    line-height: 100%;
+    padding: 10px 16px;
+    color: var(--neutral-900);
+    background-color: var(--neutral-0);
+}
+.btn-beat > svg > path {
+    stroke: var(--neutral-900);
 }
 .choice {
     display: grid;
