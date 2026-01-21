@@ -245,9 +245,13 @@ footer {
     padding: 10px 16px;
     color: var(--neutral-900);
     background-color: var(--neutral-0);
+    border-radius: 12px;
 }
 .btn-beat > svg > path {
-    stroke: var(--neutral-900);
+    fill: var(--neutral-900);
+}
+.label-btn {
+    font-weight: bold;
 }
 .choice {
     display: grid;

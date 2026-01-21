@@ -13,17 +13,47 @@ function calculateAccuracy(totalWords, wrongWords) {
 
 function updateScore(score) {
     let resultLogo = document.querySelectorAll(".resultLogo");
+    let titleFinal = document.querySelector(".title-final");
+    let pFinal = document.querySelector(".p-final");
+    resultLogo.forEach((value) => {
+        value.style.display = "none";
+    });
     if (localStorage.getItem("bestScore")) {
-        score.innerText = localStorage.getItem("bestScore");
         resultLogo.forEach((value, id) => {
-            if (id == 0) {
-                value.style.display = "none";
+            if (id == 1 && score.textContent > localStorage.getItem("bestScore")) {
+                value.style.display = "block";
+                score.innerText = localStorage.getItem("bestScore");
+                document.querySelector(".header-result").classList.remove("p-2");
+                titleFinal.innerText = "High Score Smashed!";
+                pFinal.innerText = "You’re getting faster. That was incredible typing.";
+            } else if (id == 0 && score.textContent <= localStorage.getItem("bestScore")) {
+                value.style.display = "block";
+                document.querySelector(".header-result").classList.add("p-2");
+                if (id == 0 && score.textContent == 0) {
+                    titleFinal.innerText = "Baseline Established!";
+                    pFinal.innerText = "You’ve set the bar. Now the real challenge begins—time to beat it.";
+                    score.innerText = localStorage.getItem("bestScore");
+                } else {
+                    titleFinal.innerText = "Test Complete!";
+                    pFinal.innerText = "Solid run. Keep pushing to beat your high score.";
+                }
             }
         });
     } else {
         resultLogo.forEach((value, id) => {
             if (id == 1) {
-                value.style.display = "none";
+                score.innerText = localStorage.getItem("bestScore");
+                value.style.display = "block";
+                document.querySelector(".header-result").classList.add("p-2");
+                titleFinal.innerText = "High Score Smashed!";
+                pFinal.innerText = "You’re getting faster. That was incredible typing.";
+            } else {
+                value.style.display = "block";
+                document.querySelector(".header-result").classList.remove("p-2");
+                if (id == 0 && score.textContent == 0) {
+                    titleFinal.innerText = "Baseline Established!";
+                    pFinal.innerText = "You’ve set the bar. Now the real challenge begins—time to beat it.";
+                }
             }
         });
     }
@@ -93,14 +123,11 @@ function generateBackground(background) {
 }
 
 function resultatFinal() {
-    let testComplete = document.querySelector(".testComplete");
-    let bestScore = document.querySelector(".bestScore");
     let btnRecord = document.querySelector(".record");
-    btnRecord.classList.remove(".btn-restart");
-    btnRecord.classList.add(".btn-beat");
-    testComplete.style.display = "block";
-    bestScore.style.display = "none";
-    btnRecord.innerText = "Go Again";
+    let labelBtn = document.querySelector(".label-btn");
+    btnRecord.classList.remove("btn-restart");
+    btnRecord.classList.add("btn-beat");
+    labelBtn.innerText = "Go Again";
 }
 
 export { countWord, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }

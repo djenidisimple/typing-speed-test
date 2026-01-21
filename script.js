@@ -202,6 +202,8 @@ btnStart.addEventListener("click", () => {
 });
 
 restart.addEventListener("click", function() {
+    let labelBtn = document.querySelector(".label-btn");
+    let btnRecord = document.querySelector(".record");
     resultat.style.display = "none";
     cursor = 0, pLine = 0, stop = false;
     start = false;
@@ -214,6 +216,9 @@ restart.addEventListener("click", function() {
     document.querySelector("footer").classList.add("display-none");
     canvas.classList.add("effet-blur");
     renderText();
+    btnRecord.classList.remove("btn-beat");
+    btnRecord.classList.add("btn-restart");
+    labelBtn.innerText = "Restart Test";
 });
 
 btnMode.forEach((value, id) => {
