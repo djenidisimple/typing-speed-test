@@ -97,13 +97,12 @@ function timeRun(timeInterval, time, main, footer, resultat, start, textValue, t
     if (start == true) {
         timeInterval = setInterval(() => {
             if (localStorage.getItem('mode') != "timed(60s)") {
-                time.innerText = "00";
+                time.innerText = formatedTime("0");
                 clearInterval(timeInterval);
                 return;
             }
-        
-            time.innerText = (parseInt(time.textContent) > 0) ? parseInt(time.textContent) - 1 : 0;
-            if (time.textContent == "0") {
+            time.innerText = deFormatedTime(time.textContent) > 0 ? formatedTime(deFormatedTime(time.textContent) - 1) : formatedTime(0);
+            if (time.textContent == formatedTime("0")) {
                 main.style.display = "none";
                 footer.classList.remove("border-t");
                 resultat.style.display = "block";
@@ -112,6 +111,17 @@ function timeRun(timeInterval, time, main, footer, resultat, start, textValue, t
     } else {
         clearInterval(timeInterval);
     }
+}
+
+function formatedTime(seconds) {
+    const mins = Math.floor(parseInt(seconds) / 60);
+    const secs = parseInt(seconds) % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function deFormatedTime(time) {
+    const [mins, secs] = time.split(":").map(Number);
+    return mins * 60 + secs;
 }
 
 function generateBackground(background) {
@@ -130,4 +140,4 @@ function resultatFinal() {
     labelBtn.innerText = "Go Again";
 }
 
-export { countWord, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }
+export { countWord, formatedTime, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }

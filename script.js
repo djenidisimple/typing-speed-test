@@ -1,5 +1,5 @@
 import { valueText } from "./src/load.js";
-import { calculeState, countWord, generateBackground, getFontSize, resultatFinal, timeRun, updateScore } from "./src/utils.js";
+import { calculeState, countWord, formatedTime, generateBackground, getFontSize, resultatFinal, timeRun, updateScore } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body;
@@ -23,7 +23,7 @@ let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
 let char = document.querySelector(".char");
 let score  = document.querySelector(".score");
 
-time.innerText = (localStorage.getItem('mode') == "timed(60s)") ? "60" : "00";
+// timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
 
 background.className = "background";
 body.appendChild(background);
@@ -231,21 +231,21 @@ btnMode.forEach((value, id) => {
     if (localStorage.getItem('mode') == "timed(60s)" && id % 2 == 0) {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
-        time.innerText = "60";
+        time.innerText = formatedTime("60");
     } else if (localStorage.getItem('mode') == "passage" && id % 2 != 0) {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
-        time.innerText = "00";
+        time.innerText = formatedTime("0");
     }
     value.addEventListener("click", function() {
         btnMode.forEach(v => v.classList.remove("border-blue-400"));
         value.classList.add("border-blue-400");
         if (id % 2 == 0) {
             localStorage.setItem('mode', "timed(60s)");
-            time.innerText = "60";
+            time.innerText = formatedTime("60");
         } else {
             localStorage.setItem('mode', 'passage');
-            time.innerText = "00";
+            time.innerText = formatedTime("0");
         }
         resizeCanvas();
         renderText();
@@ -322,9 +322,9 @@ function checked(element, event=null, type="mode") {
         document.querySelector(`.label-${type}-input`).innerText = (element.value);
         document.querySelector(`.label-${type}-input`).style.textTransform = "capitalize";
         if (element.value == "timed(60s)") {
-            time.innerText = "60";
+            time.innerText = formatedTime("60");
         } else if (element.value == "passage") {
-            time.innerText = "00";
+            time.innerText = formatedTime("0");
         }
     }
 }
