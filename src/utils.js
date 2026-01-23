@@ -1,5 +1,11 @@
-function countWord(word, wrong, time) {
-    let count = word.length - wrong.length;
+function countWord(time, i=0) {
+    let word = document.querySelector(".wpm");
+    let count = 0;
+    
+    if (i == 1 || i == -1) {
+        count = (parseInt(word.textContent) == 0 && i == -1) ? 0 : parseInt(word.textContent) + i;
+    }
+
     if (time <= 1) {
         return count;
     }
@@ -73,9 +79,9 @@ function getFontSize() {
     }
 }
 
-function calculeState(valueText, textWrong) {
+function calculeState(valueText, textWrong, i) {
     let text = valueText[localStorage.getItem('difficulty') || "easy"].split("");
-    let wpmValue = countWord(text, textWrong, localStorage.getItem('mode') == "timed(60s)" ? 60 : 1);
+    let wpmValue = countWord(localStorage.getItem('mode') == "timed(60s)" ? 60 : 1, i);
     let accuracy = calculateAccuracy(text.length, textWrong.length);
     let wpm = document.querySelectorAll(".wpm");
     let acc = document.querySelectorAll(".acc");
@@ -140,4 +146,4 @@ function resultatFinal() {
     labelBtn.innerText = "Go Again";
 }
 
-export { countWord, formatedTime, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, timeRun, generateBackground }
+export { countWord, formatedTime, deFormatedTime, resultatFinal, updateScore, getFontSize, calculeState, calculateAccuracy, generateBackground }

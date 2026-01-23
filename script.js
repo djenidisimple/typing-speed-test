@@ -1,5 +1,5 @@
 import { valueText } from "./src/load.js";
-import { calculeState, countWord, formatedTime, generateBackground, getFontSize, resultatFinal, timeRun, updateScore } from "./src/utils.js";
+import { calculeState, countWord, deFormatedTime, formatedTime, generateBackground, getFontSize, resultatFinal, updateScore } from "./src/utils.js";
 
 let background = document.createElement("div");
 let body = document.body;
@@ -34,6 +34,30 @@ char.innerText = valueText[localStorage.getItem('difficulty') || "easy"].split("
 resultat.style.display = "none";
 generateBackground(background);
 
+function timeRun(time, main, footer, resultat, start) {
+
+    if (timeInterval) {
+        clearInterval(timeInterval);
+    }
+    
+    if (start == true) {
+        timeInterval = setInterval(() => {
+            if (localStorage.getItem('mode') != "timed(60s)") {
+                time.innerText = formatedTime("0");
+                clearInterval(timeInterval);
+                return;
+            }
+            time.innerText = deFormatedTime(time.textContent) > 0 ? formatedTime(deFormatedTime(time.textContent) - 1) : formatedTime(0);
+            if (time.textContent == formatedTime("0")) {
+                main.style.display = "none";
+                footer.classList.remove("border-t");
+                resultat.style.display = "block";
+            }
+        }, 1000);
+    } else {
+        clearInterval(timeInterval);
+    }
+}
 
 function resizeCanvas() {
     const container = canvas.parentElement;
@@ -168,6 +192,9 @@ document.addEventListener("keydown", function(e) {
         if (!stop) {
             if (textValue[pLine].text[cursor] != e.key) {
                 textWrong.push(e.key);
+                calculeState(valueText, textWrong, -1);
+            } else {
+                calculeState(valueText, textWrong, 1);
             }
             textUser.push(e.key);
             cursor++;
@@ -185,7 +212,6 @@ document.addEventListener("keydown", function(e) {
                 resultat.style.display = "flex";
                 resultatFinal();
             }
-            calculeState(valueText, textWrong);
             renderText();
         }
     } else if ((e.key == "Backspace" || e.key == "Delete") && cursor > 0 && start) {
@@ -203,7 +229,7 @@ btnStart.addEventListener("click", () => {
     canvas.classList.remove("effet-blur");
     let wpmValue = countWord(textValue, textWrong, parseInt(time.textContent));
     wpm.forEach((value) => value.innerText = "0");
-    timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
+    timeRun(time, main, footer, resultat, start);
     calculeState(valueText, textWrong);
 });
 
@@ -214,8 +240,8 @@ restart.addEventListener("click", function() {
     cursor = 0, pLine = 0, stop = false;
     start = false;
     main.style.display = "block";
-    time.innerText = "60";
-    timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
+    time.innerText = formatedTime("60");
+    timeRun(time, main, footer, resultat, start);
     wpm.forEach((value) => value.innerText = "0");
     document.querySelector(".container-start").style.display = "flex";
     document.querySelector(".blur").classList.remove("border-b");
