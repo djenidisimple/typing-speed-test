@@ -94,31 +94,6 @@ function calculeState(valueText, textWrong, i) {
     }
 }
 
-function timeRun(timeInterval, time, main, footer, resultat, start, textValue, textWrong) {
-
-    if (timeInterval) {
-        clearInterval(timeInterval);
-    }
-    
-    if (start == true) {
-        timeInterval = setInterval(() => {
-            if (localStorage.getItem('mode') != "timed(60s)") {
-                time.innerText = formatedTime("0");
-                clearInterval(timeInterval);
-                return;
-            }
-            time.innerText = deFormatedTime(time.textContent) > 0 ? formatedTime(deFormatedTime(time.textContent) - 1) : formatedTime(0);
-            if (time.textContent == formatedTime("0")) {
-                main.style.display = "none";
-                footer.classList.remove("border-t");
-                resultat.style.display = "block";
-            }
-        }, 1000);
-    } else {
-        clearInterval(timeInterval);
-    }
-}
-
 function formatedTime(seconds) {
     const mins = Math.floor(parseInt(seconds) / 60);
     const secs = parseInt(seconds) % 60;
