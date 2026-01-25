@@ -127,7 +127,7 @@ button {
     padding-bottom: 32px;
 }
 .effet-blur {
-    filter: blur(4px);
+    filter: blur(8px);
 }
 .blur {
     position: relative;
