@@ -35,6 +35,15 @@
     border-radius: 50%;
     cursor: pointer;
 }
+.confetti {
+    position: fixed;
+    bottom: 0px;
+    left: -14px;
+}
+.confetti svg {
+    width: 465.79px;
+    height: 168px;
+}
 .boxShadow-green {
     box-shadow: 0 0 0 32px rgba(77, 214, 123, 0.1), 0 0 0 16px rgba(77, 214, 123, 0.2);
 }
@@ -202,8 +211,10 @@ header {
     margin-bottom: 32px;
 }
 footer {
+    position: relative;
     width: 100%;
     padding-top: 24px;
+    padding-bottom: 124px;
 }
 .btn-restart {
     cursor: pointer;

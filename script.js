@@ -23,15 +23,14 @@ let ctx = canvas.getContext("2d"), pLine = 0, countLine = 0, stop = false;
 let char = document.querySelector(".char");
 let score  = document.querySelector(".score");
 
-// timeRun(timeInterval, time, main, footer, resultat, start, valueText[localStorage.getItem('difficulty') || "easy"].split(""), textWrong);
-
+document.querySelector(".blur").style.display = "none";
 background.className = "background";
 body.appendChild(background);
 wpm.forEach((value) => value.innerText = "0");
 acc.forEach((value) => value.innerText = "100%");
 updateScore(score);
 char.innerText = valueText[localStorage.getItem('difficulty') || "easy"].split("").length;
-resultat.style.display = "none";
+// resultat.style.display = "none";
 generateBackground(background);
 
 function timeRun(time, main, footer, resultat, start) {
